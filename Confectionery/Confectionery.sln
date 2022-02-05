@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryView", "ConfectioneryView\ConfectioneryView.csproj", "{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryContracts", "ConfectioneryContracts\ConfectioneryContracts.csproj", "{96F3439F-2660-497B-8FAD-6407AEDCC7D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryBusinessLogic", "ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj", "{2113E027-B6B7-4C64-8738-6B7A3D838DDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{17F0C5CA-1775-4028-AE16-797F191F0F16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F3439F-2660-497B-8FAD-6407AEDCC7D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F3439F-2660-497B-8FAD-6407AEDCC7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F3439F-2660-497B-8FAD-6407AEDCC7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F3439F-2660-497B-8FAD-6407AEDCC7D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2113E027-B6B7-4C64-8738-6B7A3D838DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2113E027-B6B7-4C64-8738-6B7A3D838DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2113E027-B6B7-4C64-8738-6B7A3D838DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2113E027-B6B7-4C64-8738-6B7A3D838DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
