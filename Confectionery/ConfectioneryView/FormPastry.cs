@@ -170,5 +170,10 @@ namespace ConfectioneryView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            this.dataGridView.Columns["IdComponent"].Visible = false;
+        }
     }
 }

@@ -106,12 +106,14 @@ namespace ConfectioneryListImplement.Implements
             return order;
         }
 
-        private static OrderViewModel CreateModel(Order order)
+        private OrderViewModel CreateModel(Order order)
         {
+            var pastryName = source.Pastries[order.PastryId - 1].PastryName;
             return new OrderViewModel
             {
                 Id = order.Id,
                 PastryId = order.PastryId,
+                PastryName = pastryName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),

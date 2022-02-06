@@ -8,12 +8,12 @@ namespace ConfectioneryListImplement
         private static DataListSingleton instance;
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
-        public List<Pastry> Products { get; set; }
+        public List<Pastry> Pastries { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
-            Products = new List<Pastry>();
+            Pastries = new List<Pastry>();
         }
         public static DataListSingleton GetInstance()
         {

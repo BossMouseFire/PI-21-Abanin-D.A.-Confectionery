@@ -11,9 +11,9 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage componentStorage)
+        public OrderLogic(IOrderStorage orderStorage)
         {
-            _orderStorage = componentStorage;
+            _orderStorage = orderStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -38,7 +38,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 PastryId = model.PastryId,
                 Count = model.Count,
                 Sum = model.Sum,
-                Status = OrderStatus.Принят
+                Status = OrderStatus.Принят,
+                DateCreate = DateTime.Now
             });
         }
 
@@ -98,7 +99,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Выдан,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = DateTime.Now
                 });
             }
         }

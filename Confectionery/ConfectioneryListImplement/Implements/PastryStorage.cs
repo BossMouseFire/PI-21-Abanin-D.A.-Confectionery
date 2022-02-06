@@ -19,7 +19,7 @@ namespace ConfectioneryListImplement.Implements
         public List<PastryViewModel> GetFullList()
         {
             var result = new List<PastryViewModel>();
-            foreach (var component in source.Products)
+            foreach (var component in source.Pastries)
             {
                 result.Add(CreateModel(component));
             }
@@ -32,7 +32,7 @@ namespace ConfectioneryListImplement.Implements
                 return null;
             }
             var result = new List<PastryViewModel>();
-            foreach (var product in source.Products)
+            foreach (var product in source.Pastries)
             {
                 if (product.PastryName.Contains(model.PastryName))
                 {
@@ -47,7 +47,7 @@ namespace ConfectioneryListImplement.Implements
             {
                 return null;
             }
-            foreach (var product in source.Products)
+            foreach (var product in source.Pastries)
             {
                 if (product.Id == model.Id || product.PastryName ==
                 model.PastryName)
@@ -65,19 +65,19 @@ namespace ConfectioneryListImplement.Implements
                 PastryComponents = new
             Dictionary<int, int>()
             };
-            foreach (var product in source.Products)
+            foreach (var product in source.Pastries)
             {
                 if (product.Id >= tempPastry.Id)
                 {
                     tempPastry.Id = product.Id + 1;
                 }
             }
-            source.Products.Add(CreateModel(model, tempPastry));
+            source.Pastries.Add(CreateModel(model, tempPastry));
         }
         public void Update(PastryBindingModel model)
         {
             Pastry tempPastry = null;
-            foreach (var product in source.Products)
+            foreach (var product in source.Pastries)
             {
                 if (product.Id == model.Id)
                 {
@@ -92,11 +92,11 @@ namespace ConfectioneryListImplement.Implements
         }
         public void Delete(PastryBindingModel model)
         {
-            for (int i = 0; i < source.Products.Count; ++i)
+            for (int i = 0; i < source.Pastries.Count; ++i)
             {
-                if (source.Products[i].Id == model.Id)
+                if (source.Pastries[i].Id == model.Id)
                 {
-                    source.Products.RemoveAt(i);
+                    source.Pastries.RemoveAt(i);
                     return;
                 }
             }
