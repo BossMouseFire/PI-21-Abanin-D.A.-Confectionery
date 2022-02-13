@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryView", "ConfectioneryView\ConfectioneryView.csproj", "{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryView", "ConfectioneryView\ConfectioneryView.csproj", "{39B65FB3-1D94-49C4-AAEF-F8037F0F5E9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryContracts", "ConfectioneryContracts\ConfectioneryContracts.csproj", "{96F3439F-2660-497B-8FAD-6407AEDCC7D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryContracts", "ConfectioneryContracts\ConfectioneryContracts.csproj", "{96F3439F-2660-497B-8FAD-6407AEDCC7D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryBusinessLogic", "ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj", "{2113E027-B6B7-4C64-8738-6B7A3D838DDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryBusinessLogic", "ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj", "{2113E027-B6B7-4C64-8738-6B7A3D838DDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{17F0C5CA-1775-4028-AE16-797F191F0F16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryListImplement", "ConfectioneryListImplement\ConfectioneryListImplement.csproj", "{17F0C5CA-1775-4028-AE16-797F191F0F16}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryFileImplement", "ConfectioneryFileImplement\ConfectioneryFileImplement.csproj", "{61DFEDDD-CB8B-4481-B587-4B5007296741}"
+	ProjectSection(ProjectDependencies) = postProject
+		{96F3439F-2660-497B-8FAD-6407AEDCC7D1} = {96F3439F-2660-497B-8FAD-6407AEDCC7D1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17F0C5CA-1775-4028-AE16-797F191F0F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61DFEDDD-CB8B-4481-B587-4B5007296741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61DFEDDD-CB8B-4481-B587-4B5007296741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61DFEDDD-CB8B-4481-B587-4B5007296741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61DFEDDD-CB8B-4481-B587-4B5007296741}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
