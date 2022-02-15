@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace ConfectioneryFileImplement
 {
@@ -12,16 +13,16 @@ namespace ConfectioneryFileImplement
     {
         private static FileDataListSingleton instance;
         private readonly string ComponentFileName = "Component.xml";
-        private readonly string OrderFileName = "Order.xml";
+        private readonly string OrderFileName = "Order1.xml";
         private readonly string PastryFileName = "Pastry.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
-        public List<Pastry> Products { get; set; }
+        public List<Pastry> Pastries { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
-            Products = LoadProducts();
+            Pastries = LoadPastries();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -31,12 +32,15 @@ namespace ConfectioneryFileImplement
             }
             return instance;
         }
-        ~FileDataListSingleton()
+
+        public static void SaveData()
         {
-            SaveComponents();
-            SaveOrders();
-            SaveProducts();
+            var singleton  = new FileDataListSingleton();
+            singleton.SaveComponents(instance.Components);
+            singleton.SaveOrders(instance.Orders);
+            singleton.SaveParties(instance.Pastries);
         }
+
         private List<Component> LoadComponents()
         {
             var list = new List<Component>();
@@ -44,7 +48,7 @@ namespace ConfectioneryFileImplement
             {
                 var xDocument = XDocument.Load(ComponentFileName);
                 var xElements = xDocument.Root.Elements("Component").ToList();
-            foreach (var elem in xElements)
+                foreach (var elem in xElements)
                 {
                     list.Add(new Component
                     {
@@ -57,20 +61,59 @@ namespace ConfectioneryFileImplement
         }
         private List<Order> LoadOrders()
         {
-            // прописать логику
+            var list = new List<Order>();
+            if (File.Exists(OrderFileName))
+            {
+                var xDocument = XDocument.Load(OrderFileName);
+                var xElements = xDocument.Root.Elements("Order").ToList();
+                foreach (var elem in xElements)
+                {
+                    var dataCreate = elem.Element("DateCreate").Value;
+                    var dataImplement = elem.Element("DateImplement").Value;
+                    if (dataImplement != "")
+                    {
+                        list.Add(new Order
+                        {
+                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
+                            Count = Convert.ToInt32(elem.Element("Count").Value),
+                            Sum = Convert.ToInt32(elem.Element("Sum").Value),
+                            Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                            DateCreate = DateTime.ParseExact(dataCreate, "yyyy-MM-dd hh:mm",
+                                           null),
+                            DateImplement = DateTime.ParseExact(dataImplement, "yyyy-MM-dd hh:mm",
+                                           null),
+                        });
+                    } else
+                    {
+                        list.Add(new Order
+                        {
+                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
+                            Count = Convert.ToInt32(elem.Element("Count").Value),
+                            Sum = Convert.ToInt32(elem.Element("Sum").Value),
+                            Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                            DateCreate = DateTime.ParseExact(dataCreate, "yyyy-MM-dd hh:mm",
+                                           null),
+                        });
+                    }
+                    
+                }
+            }
+            return list;
         }
-        private List<Pastry> LoadProducts()
+        private List<Pastry> LoadPastries()
         {
             var list = new List<Pastry>();
             if (File.Exists(PastryFileName))
             {
                 var xDocument = XDocument.Load(PastryFileName);
-                var xElements = xDocument.Root.Elements("Product").ToList();
+                var xElements = xDocument.Root.Elements("Pastry").ToList();
                 foreach (var elem in xElements)
                 {
                     var prodComp = new Dictionary<int, int>();
                     foreach (var component in
-                   elem.Element("ProductComponents").Elements("ProductComponent").ToList())
+                   elem.Element("PastryComponents").Elements("PastryComponent").ToList())
                     {
                         prodComp.Add(Convert.ToInt32(component.Element("Key").Value),
                        Convert.ToInt32(component.Element("Value").Value));
@@ -78,7 +121,7 @@ namespace ConfectioneryFileImplement
                     list.Add(new Pastry
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        PastryName = elem.Element("ProductName").Value,
+                        PastryName = elem.Element("PastryName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value),
                         PastryComponents = prodComp
                     });
@@ -86,7 +129,7 @@ namespace ConfectioneryFileImplement
             }
             return list;
         }
-        private void SaveComponents()
+        private void SaveComponents(List<Component> Components)
         {
             if (Components != null)
             {
@@ -98,30 +141,47 @@ namespace ConfectioneryFileImplement
                     new XElement("ComponentName", component.ComponentName)));
                 }
                 var xDocument = new XDocument(xElement);
-            xDocument.Save(ComponentFileName);
+                xDocument.Save(ComponentFileName);
             }
         }
-        private void SaveOrders()
+        private void SaveOrders(List<Order> Orders)
         {
-            // прописать логику
-        }
-        private void SaveProducts()
-        {
-            if (Products != null)
+            if (Orders != null)
             {
-                var xElement = new XElement("Products");
-                foreach (var product in Products)
+                var xElement = new XElement("Orders");
+                foreach (var order in Orders)
                 {
-                    var compElement = new XElement("ProductComponents");
+                    xElement.Add(new XElement("Order",
+                        new XAttribute("Id", order.Id),
+                        new XElement("PastryId", order.PastryId),
+                        new XElement("Count", order.Count),
+                        new XElement("Sum", order.Sum),
+                        new XElement("Status", order.Status),
+                        new XElement("DateCreate", order.DateCreate.ToString("yyyy-MM-dd hh:mm")),
+                        new XElement("DateImplement", order.DateImplement?.ToString("yyyy-MM-dd hh:mm"))
+                        ));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(OrderFileName);
+            }
+        }
+        private void SaveParties(List<Pastry> Pastries)
+        {
+            if (Pastries != null)
+            {
+                var xElement = new XElement("Pastries");
+                foreach (var product in Pastries)
+                {
+                    var compElement = new XElement("PastryComponents");
                     foreach (var component in product.PastryComponents)
                     {
-                        compElement.Add(new XElement("ProductComponent",
+                        compElement.Add(new XElement("PastryComponent",
                         new XElement("Key", component.Key),
                         new XElement("Value", component.Value)));
                     }
-                    xElement.Add(new XElement("Product",
+                    xElement.Add(new XElement("Pastry",
                      new XAttribute("Id", product.Id),
-                     new XElement("ProductName", product.PastryName),
+                     new XElement("PastryName", product.PastryName),
                      new XElement("Price", product.Price),
                      compElement));
                 }

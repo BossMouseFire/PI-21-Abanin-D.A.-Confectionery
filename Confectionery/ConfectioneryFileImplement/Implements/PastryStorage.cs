@@ -16,7 +16,7 @@ namespace ConfectioneryFileImplement.Implements
         }
         public List<PastryViewModel> GetFullList()
         {
-            return source.Products
+            return source.Pastries
             .Select(CreateModel)
             .ToList();
         }
@@ -26,7 +26,7 @@ namespace ConfectioneryFileImplement.Implements
             {
                 return null;
             }
-            return source.Products
+            return source.Pastries
             .Where(rec => rec.PastryName.Contains(model.PastryName))
             .Select(CreateModel)
             .ToList();
@@ -37,26 +37,24 @@ namespace ConfectioneryFileImplement.Implements
             {
                 return null;
             }
-            var pastry = source.Products
+            var pastry = source.Pastries
             .FirstOrDefault(rec => rec.PastryName == model.PastryName || rec.Id
            == model.Id);
             return pastry != null ? CreateModel(pastry) : null;
         }
         public void Insert(PastryBindingModel model)
         {
-        int maxId = source.Products.Count > 0 ? source.Components.Max(rec => rec.Id)
-: 0;
+            int maxId = source.Pastries.Count > 0 ? source.Components.Max(rec => rec.Id): 0;
             var element = new Pastry
             {
                 Id = maxId + 1,
-                PastryComponents = new
-           Dictionary<int, int>()
+                PastryComponents = new Dictionary<int, int>()
             };
-            source.Products.Add(CreateModel(model, element));
+            source.Pastries.Add(CreateModel(model, element));
         }
         public void Update(PastryBindingModel model)
         {
-            var element = source.Products.FirstOrDefault(rec => rec.Id == model.Id);
+            var element = source.Pastries.FirstOrDefault(rec => rec.Id == model.Id);
             if (element == null)
             {
                 throw new Exception("Элемент не найден");
@@ -65,10 +63,10 @@ namespace ConfectioneryFileImplement.Implements
         }
         public void Delete(PastryBindingModel model)
         {
-            Pastry element = source.Products.FirstOrDefault(rec => rec.Id == model.Id);
+            Pastry element = source.Pastries.FirstOrDefault(rec => rec.Id == model.Id);
             if (element != null)
             {
-                source.Products.Remove(element);
+                source.Pastries.Remove(element);
             }
             else
             {
