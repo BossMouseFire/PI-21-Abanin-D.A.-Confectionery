@@ -45,7 +45,7 @@ namespace ConfectioneryView
         }
         private void PastryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Program.Container.Resolve<FormPastry>();
+            var form = Program.Container.Resolve<FormPatries>();
             form.ShowDialog();
         }
         private void ButtonCreateOrder_Click(object sender, EventArgs e)

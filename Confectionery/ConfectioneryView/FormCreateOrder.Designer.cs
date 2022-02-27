@@ -60,6 +60,7 @@ namespace ConfectioneryView
             this.textBoxCount.Name = "textBoxCount";
             this.textBoxCount.Size = new System.Drawing.Size(259, 23);
             this.textBoxCount.TabIndex = 2;
+            this.textBoxCount.TextChanged += new System.EventHandler(this.TextBoxCount_TextChanged);
             // 
             // label1
             // 
