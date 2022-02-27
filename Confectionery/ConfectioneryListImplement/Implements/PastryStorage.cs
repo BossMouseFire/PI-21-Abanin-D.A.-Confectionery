@@ -102,38 +102,39 @@ namespace ConfectioneryListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-        private static Pastry CreateModel(PastryBindingModel model, Pastry product)
+        private static Pastry CreateModel(PastryBindingModel model, Pastry pastry)
         {
-            product.PastryName = model.PastryName;
-            product.Price = model.Price;
+            pastry.PastryName = model.PastryName;
+            pastry.Price = model.Price;
+
             // удаляем убранные
-            foreach (var key in product.PastryComponents.Keys.ToList())
+            foreach (var key in pastry.PastryComponents.Keys.ToList())
             {
                 if (!model.PastryComponents.ContainsKey(key))
                 {
-                    product.PastryComponents.Remove(key);
+                    pastry.PastryComponents.Remove(key);
                 }
             }
             // обновляем существуюущие и добавляем новые
             foreach (var component in model.PastryComponents)
             {
-                if (product.PastryComponents.ContainsKey(component.Key))
+                if (pastry.PastryComponents.ContainsKey(component.Key))
                 {
-                    product.PastryComponents[component.Key] =
+                    pastry.PastryComponents[component.Key] =
                     model.PastryComponents[component.Key].Item2;
                 }
                 else
                 {
-                    product.PastryComponents.Add(component.Key,
+                    pastry.PastryComponents.Add(component.Key,
                     model.PastryComponents[component.Key].Item2);
                 }
             }
-            return product;
+            return pastry;
         }
-        private PastryViewModel CreateModel(Pastry product)
+        private PastryViewModel CreateModel(Pastry pastry)
         {
             var pastryComponents = new Dictionary<int, (string, int)>();
-            foreach (var pc in product.PastryComponents)
+            foreach (var pc in pastry.PastryComponents)
             {
                 string componentName = string.Empty;
                 foreach (var component in source.Components)
@@ -148,9 +149,9 @@ namespace ConfectioneryListImplement.Implements
             }
             return new PastryViewModel
             {
-                Id = product.Id,
-                PastryName = product.PastryName,
-                Price = product.Price,
+                Id = pastry.Id,
+                PastryName = pastry.PastryName,
+                Price = pastry.Price,
                 PastryComponents = pastryComponents
             };
         }
