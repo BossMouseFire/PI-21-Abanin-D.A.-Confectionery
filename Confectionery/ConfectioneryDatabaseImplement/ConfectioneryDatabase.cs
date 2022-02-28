@@ -9,8 +9,7 @@ namespace ConfectioneryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;Initial
-Catalog=ConfectioneryDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=confectioneryDB;Trusted_Connection=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }

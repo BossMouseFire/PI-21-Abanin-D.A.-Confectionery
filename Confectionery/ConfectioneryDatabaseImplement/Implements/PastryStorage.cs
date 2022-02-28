@@ -48,7 +48,7 @@ namespace ConfectioneryDatabaseImplement.Implements
             var product = context.Pastries
             .Include(rec => rec.PastryComponents)
             .ThenInclude(rec => rec.Component)
-            .FirstOrDefault(rec => rec.ProductName == model.PastryName ||
+            .FirstOrDefault(rec => rec.PastryName == model.PastryName ||
             rec.Id == model.Id);
             return product != null ? CreateModel(product) : null;
         }

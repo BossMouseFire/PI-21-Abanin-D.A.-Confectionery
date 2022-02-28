@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj" />
+    <ProjectReference Include="..\ConfectioneryDatabaseImplement\ConfectioneryDatabaseImplement.csproj" />
     <ProjectReference Include="..\ConfectioneryFileImplement\ConfectioneryFileImplement.csproj" />
     <ProjectReference Include="..\ConfectioneryListImplement\ConfectioneryListImplement.csproj" />
   </ItemGroup>
