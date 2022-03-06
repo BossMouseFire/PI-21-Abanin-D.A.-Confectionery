@@ -13,13 +13,15 @@ namespace ConfectioneryDatabaseImplement.Implements
     {
         public List<PastryViewModel> GetFullList()
         {
-            using var context = new ConfectioneryDatabase();
-            return context.Pastries
-            .Include(rec => rec.PastryComponents)
-            .ThenInclude(rec => rec.Component)
-            .ToList()
-            .Select(CreateModel)
-            .ToList();
+            using (var context = new ConfectioneryDatabase())
+            {
+                return context.Pastries
+                .Include(rec => rec.PastryComponents)
+                .ThenInclude(rec => rec.Component)
+                .ToList()
+                .Select(CreateModel)
+                .ToList();
+            }
         }
 
         public List<PastryViewModel> GetFilteredList(PastryBindingModel model)
@@ -28,14 +30,16 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new ConfectioneryDatabase();
-            return context.Pastries
-            .Include(rec => rec.PastryComponents)
-            .ThenInclude(rec => rec.Component)
-            .Where(rec => rec.PastryName.Contains(model.PastryName))
-            .ToList()
-            .Select(CreateModel)
-            .ToList();
+            using (var context = new ConfectioneryDatabase())
+            {
+                return context.Pastries
+                   .Include(rec => rec.PastryComponents)
+                   .ThenInclude(rec => rec.Component)
+                   .Where(rec => rec.PastryName.Contains(model.PastryName))
+                   .ToList()
+                   .Select(CreateModel)
+                   .ToList();
+            }
         }
 
         public PastryViewModel GetElement(PastryBindingModel model)
@@ -44,76 +48,106 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new ConfectioneryDatabase();
-            var product = context.Pastries
-            .Include(rec => rec.PastryComponents)
-            .ThenInclude(rec => rec.Component)
-            .FirstOrDefault(rec => rec.PastryName == model.PastryName ||
-            rec.Id == model.Id);
-            return product != null ? CreateModel(product) : null;
+            using (var context = new ConfectioneryDatabase())
+            {
+                var product = context.Pastries
+                .Include(rec => rec.PastryComponents)
+                .ThenInclude(rec => rec.Component)
+                .FirstOrDefault(rec => rec.PastryName == model.PastryName ||
+                rec.Id == model.Id);
+                return product != null ? CreateModel(product) : null;
+            }
         }
 
         public void Insert(PastryBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new ConfectioneryDatabase())
             {
-                context.Pastries.Add(CreateModel(model, new Pastry(),
-                context));
-                context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var pastry = new Pastry
+                        {
+                            PastryName = model.PastryName,
+                            Price = model.Price
+                        };
+                        context.Pastries.Add(pastry);
+                        context.SaveChanges();
+
+                        foreach (var pc in model.PastryComponents)
+                        {
+                            context.PastryComponents.Add(new PastryComponent
+                            {
+                                PastryId = pastry.Id,
+                                ComponentId = pc.Key,
+                                Count = pc.Value.Item2
+                            });
+
+                            context.SaveChanges();
+
+                        }
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
 
         public void Update(PastryBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new ConfectioneryDatabase())
             {
-                var element = context.Pastries.FirstOrDefault(rec => rec.Id ==
-                model.Id);
-                if (element == null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    throw new Exception("Элемент не найден");
+                    try
+                    {
+                        var element = context.Pastries.FirstOrDefault(rec => rec.Id ==
+                        model.Id);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        element.PastryName = model.PastryName;
+                        element.Price = model.Price;
+                        CreateModel(model, element, context);
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                CreateModel(model, element, context);
-                context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
             }
         }
 
         public void Delete(PastryBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            Pastry element = context.Pastries.FirstOrDefault(rec => rec.Id ==
-            model.Id);
-            if (element != null)
+            using (var context = new ConfectioneryDatabase())
             {
-                context.Pastries.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
+                Pastry element = context.Pastries.FirstOrDefault(rec => rec.Id ==
+                model.Id);
+                if (element != null)
+                {
+                    context.Pastries.Remove(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
 
         private static Pastry CreateModel(PastryBindingModel model, Pastry pastry, ConfectioneryDatabase context)
         {
-            pastry.PastryName = model.PastryName;
-            pastry.Price = model.Price;
             if (model.Id.HasValue)
             {
                 var pastryComponents = context.PastryComponents.Where(rec =>
@@ -125,9 +159,9 @@ namespace ConfectioneryDatabaseImplement.Implements
                 // обновили количество у существующих записей
                 foreach (var updateComponent in pastryComponents)
                 {
-                   updateComponent.Count =
-                   model.PastryComponents[updateComponent.ComponentId].Item2;
-                   model.PastryComponents.Remove(updateComponent.ComponentId);
+                    updateComponent.Count =
+                    model.PastryComponents[updateComponent.ComponentId].Item2;
+                    model.PastryComponents.Remove(updateComponent.ComponentId);
                 }
                 context.SaveChanges();
             }
@@ -139,7 +173,9 @@ namespace ConfectioneryDatabaseImplement.Implements
                     ComponentId = pc.Key,
                     Count = pc.Value.Item2
                 });
+
                 context.SaveChanges();
+
             }
             return pastry;
         }

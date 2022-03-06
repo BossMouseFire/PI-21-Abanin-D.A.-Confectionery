@@ -16,7 +16,18 @@ namespace ConfectioneryDatabaseImplement.Implements
             using (var context = new ConfectioneryDatabase())
             {
                 return context.Orders
-                    .Select(rec => CreateModel(rec, context))
+                    .Select(order => new OrderViewModel
+                    {
+                        Id = order.Id,
+                        PastryId = order.PastryId,
+                        PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        Status = order.Status.ToString(),
+                        DateCreate = order.DateCreate,
+                        DateImplement = order.DateImplement,
+                    }
+            )
                     .ToList();
             }
         }
@@ -32,7 +43,18 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return context.Orders
                     .Where(rec => rec.PastryId == model.PastryId)
-                    .Select(rec => CreateModel(rec, context))
+                    .Select(order => new OrderViewModel
+                    {
+                        Id = order.Id,
+                        PastryId = order.PastryId,
+                        PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
+                        Count = order.Count,
+                        Sum = order.Sum,
+                        Status = order.Status.ToString(),
+                        DateCreate = order.DateCreate,
+                        DateImplement = order.DateImplement,
+                    }
+            )
                     .ToList();
             }
         }
@@ -48,7 +70,17 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
-                CreateModel(order, context) :
+                new OrderViewModel
+                {
+                    Id = order.Id,
+                    PastryId = order.PastryId,
+                    PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    Status = order.Status.ToString(),
+                    DateCreate = order.DateCreate,
+                    DateImplement = order.DateImplement,
+                } :
                 null;
             }
         }
@@ -138,21 +170,6 @@ namespace ConfectioneryDatabaseImplement.Implements
                 }
             }
             return order;
-        }
-
-        private static OrderViewModel CreateModel(Order order, ConfectioneryDatabase context)
-        {
-            return new OrderViewModel
-            {
-                Id = order.Id,
-                PastryId = order.PastryId,
-                PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
-                Count = order.Count,
-                Sum = order.Sum,
-                Status = order.Status.ToString(),
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-            };
         }
     }
 }

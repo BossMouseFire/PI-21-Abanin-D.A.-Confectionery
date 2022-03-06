@@ -13,10 +13,12 @@ namespace ConfectioneryDatabaseImplement.Implements
     {
         public List<ComponentViewModel> GetFullList()
         {
-            using var context = new ConfectioneryDatabase();
-            return context.Components
-            .Select(CreateModel)
-            .ToList();
+            using (var context = new ConfectioneryDatabase())
+            {
+                return context.Components
+                .Select(CreateModel)
+                .ToList();
+            }
         }
 
         public List<ComponentViewModel> GetFilteredList(ComponentBindingModel model)
@@ -25,11 +27,13 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new ConfectioneryDatabase();
-            return context.Components
-            .Where(rec => rec.ComponentName.Contains(model.ComponentName))
-            .Select(CreateModel)
-            .ToList();
+            using (var context = new ConfectioneryDatabase())
+            {
+                return context.Components
+                .Where(rec => rec.ComponentName.Contains(model.ComponentName))
+                .Select(CreateModel)
+                .ToList();
+            }
         }
 
         public ComponentViewModel GetElement(ComponentBindingModel model)
@@ -38,41 +42,49 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new ConfectioneryDatabase();
-            var component = context.Components
-                .FirstOrDefault(rec => rec.ComponentName == model.ComponentName || rec.Id == model.Id);
-            return component != null ? CreateModel(component) : null;
+            using (var context = new ConfectioneryDatabase())
+            {
+                var component = context.Components
+                    .FirstOrDefault(rec => rec.ComponentName == model.ComponentName || rec.Id == model.Id);
+                return component != null ? CreateModel(component) : null;
+            }
         }
         public void Insert(ComponentBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            context.Components.Add(CreateModel(model, new Component()));
-            context.SaveChanges();
+            using (var context = new ConfectioneryDatabase())
+            {
+                context.Components.Add(CreateModel(model, new Component()));
+                context.SaveChanges();
+            }
         }
         public void Update(ComponentBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            var element = context.Components.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            using (var context = new ConfectioneryDatabase())
             {
-                throw new Exception("Элемент не найден");
+                var element = context.Components.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, element);
+                context.SaveChanges();
             }
-            CreateModel(model, element);
-            context.SaveChanges();
         }
         public void Delete(ComponentBindingModel model)
         {
-            using var context = new ConfectioneryDatabase();
-            Component element = context.Components.FirstOrDefault(rec => rec.Id ==
-           model.Id);
-            if (element != null)
+            using (var context = new ConfectioneryDatabase())
             {
-                context.Components.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
+                Component element = context.Components.FirstOrDefault(rec => rec.Id ==
+               model.Id);
+                if (element != null)
+                {
+                    context.Components.Remove(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
 
