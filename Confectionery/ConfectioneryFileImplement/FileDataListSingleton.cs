@@ -13,7 +13,7 @@ namespace ConfectioneryFileImplement
     {
         private static FileDataListSingleton instance;
         private readonly string ComponentFileName = "Component.xml";
-        private readonly string OrderFileName = "Order1.xml";
+        private readonly string OrderFileName = "Order.xml";
         private readonly string PastryFileName = "Pastry.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
