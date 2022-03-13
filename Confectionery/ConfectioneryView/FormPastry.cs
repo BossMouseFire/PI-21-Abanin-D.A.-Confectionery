@@ -27,8 +27,7 @@ namespace ConfectioneryView
                 {
                     PastryViewModel view = _logic.Read(new PastryBindingModel
                     {
-                        Id =
-                   id.Value
+                        Id = id.Value
                     })?[0];
                     if (view != null)
                     {

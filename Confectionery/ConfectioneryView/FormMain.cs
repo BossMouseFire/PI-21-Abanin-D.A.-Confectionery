@@ -118,6 +118,18 @@ namespace ConfectioneryView
         {
             LoadData();
         }
+
+        private void WarehouseAddToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormWarehouseComponent>();
+            form.ShowDialog();
+        }
+
+        private void warehousesStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
+        }
     }
 
 }
