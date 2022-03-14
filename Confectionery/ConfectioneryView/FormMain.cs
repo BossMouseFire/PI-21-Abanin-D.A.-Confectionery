@@ -1,5 +1,6 @@
 ﻿using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
+using ConfectioneryFileImplement;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -118,7 +119,6 @@ namespace ConfectioneryView
         {
             LoadData();
         }
-
         private void WarehouseAddToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormWarehouseComponent>();

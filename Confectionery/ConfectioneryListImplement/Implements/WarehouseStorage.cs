@@ -96,6 +96,15 @@ namespace ConfectioneryListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
+        public bool CheckBalance(Dictionary<int, int> components)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool WriteOffBalance(Dictionary<int, int> components)
+        {
+            throw new NotImplementedException();
+        }
         private WarehouseViewModel CreateModel(Warehouse warehouse)
         {
             var warehouseComonents = new Dictionary<int, (string, int)>();
