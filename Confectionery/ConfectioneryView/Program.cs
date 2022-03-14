@@ -1,8 +1,7 @@
 using ConfectioneryBusinessLogic.BusinessLogics;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using ConfectioneryContracts.StoragesContracts;
-using ConfectioneryFileImplement.Implements;
-using ConfectioneryFileImplement;
+using ConfectioneryDatabaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -34,7 +33,6 @@ namespace ConfectioneryView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
-            FileDataListSingleton.SaveData();
 
         }
         private static IUnityContainer BuildUnityContainer()

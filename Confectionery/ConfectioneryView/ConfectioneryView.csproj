@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ConfectioneryBusinessLogic\ConfectioneryBusinessLogic.csproj" />
+    <ProjectReference Include="..\ConfectioneryDatabaseImplement\ConfectioneryDatabaseImplement.csproj" />
     <ProjectReference Include="..\ConfectioneryFileImplement\ConfectioneryFileImplement.csproj" />
     <ProjectReference Include="..\ConfectioneryListImplement\ConfectioneryListImplement.csproj" />
   </ItemGroup>
