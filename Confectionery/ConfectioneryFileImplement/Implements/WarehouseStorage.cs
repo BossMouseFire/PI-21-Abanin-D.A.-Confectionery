@@ -72,16 +72,6 @@ namespace ConfectioneryFileImplement.Implements
         public bool CheckBalance(Dictionary<int, int> components)
         {
             Dictionary<int, int> reserveComponents = new Dictionary<int, int>();
-            source.Warehouses.Select(warehouse => warehouse.WarehouseComponents.Select(component => (
-            if (reserveComponents.ContainsKey(comp.Key))
-            {
-                reserveComponents[comp.Key] += comp.Value;
-            }
-            else
-            {
-                reserveComponents.Add(comp.Key, comp.Value);
-            }
-            )));
             foreach (var warehouse in source.Warehouses)
             {
                 foreach (var comp in warehouse.WarehouseComponents)
