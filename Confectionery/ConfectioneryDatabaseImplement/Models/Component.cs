@@ -16,5 +16,8 @@ namespace ConfectioneryDatabaseImplement.Models
 
         [ForeignKey("ComponentId")]
         public virtual List<PastryComponent> PastryComponents { get; set; }
+
+        [ForeignKey("ComponentId")]
+        public virtual List<WarehouseComponent> WarehouseComponents { get; set; }
     }
 }
