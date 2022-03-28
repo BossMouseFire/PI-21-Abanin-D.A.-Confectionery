@@ -1,0 +1,89 @@
+﻿using System;
+using System.Windows.Forms;
+using ConfectioneryContracts.BindingModels;
+using ConfectioneryContracts.BusinessLogicsContracts;
+using Microsoft.Reporting.WinForms;
+using System.IO;
+
+namespace ConfectioneryView
+{
+    public partial class FormReportOrders : Form
+    {
+        private readonly ReportViewer reportViewer;
+        private readonly IReportLogic logic;
+
+        public FormReportOrders(IReportLogic logic)
+        {
+            InitializeComponent();
+            this.logic = logic;
+            reportViewer = new ReportViewer
+            {
+                Dock = DockStyle.Fill
+            };
+            reportViewer.LocalReport.LoadReportDefinition(new FileStream("ReportOrders.rdlc", FileMode.Open));
+            Controls.Clear();
+            Controls.Add(reportViewer);
+            Controls.Add(panel);
+        }
+
+        private void buttonMake_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                var dataSource = logic.GetOrders(new ReportBindingModel
+                {
+                    DateFrom = dateTimePickerFrom.Value,
+                    DateTo = dateTimePickerTo.Value
+                });
+                var source = new ReportDataSource("DataSetOrders", dataSource);
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.LocalReport.DataSources.Add(source);
+                var parameters = new[] { new ReportParameter("ReportParameterPeriod", "c " +
+                    dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString()) };
+                reportViewer.LocalReport.SetParameters(parameters);
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonToPdf_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            using var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    logic.SaveOrdersToPdfFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName,
+                        DateFrom = dateTimePickerFrom.Value,
+                        DateTo = dateTimePickerTo.Value
+                    });
+                    MessageBox.Show("Выполнено", "Успех",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+    }
+}

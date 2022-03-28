@@ -1,7 +1,6 @@
 ﻿using ConfectioneryBusinessLogic.OfficePackage;
 using ConfectioneryBusinessLogic.OfficePackage.HelperModels;
 using ConfectioneryContracts.BindingModels;
-using ConfectioneryBusinessLogic.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.ViewModels;

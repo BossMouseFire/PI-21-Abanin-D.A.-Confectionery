@@ -6,6 +6,8 @@ using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
+using ConfectioneryBusinessLogic.OfficePackage;
+using ConfectioneryBusinessLogic.OfficePackage.Implements;
 
 namespace ConfectioneryView
 {
@@ -39,17 +41,25 @@ namespace ConfectioneryView
         {
             var currentContainer = new UnityContainer();
             currentContainer.RegisterType<IComponentStorage,
-            ComponentStorage>(new HierarchicalLifetimeManager());
+                ComponentStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
-            HierarchicalLifetimeManager());
+                HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPastryStorage, PastryStorage>(new
-            HierarchicalLifetimeManager());
+                HierarchicalLifetimeManager());
             currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new
-            HierarchicalLifetimeManager());
+                HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
-            HierarchicalLifetimeManager());
+                HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPastryLogic, PastryLogic>(new
-            HierarchicalLifetimeManager());
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IReportLogic, ReportLogic>(new
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToExcel, SaveToExcel>(new
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToPdf, SaveToPdf>(new
+                HierarchicalLifetimeManager());
+            currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
+                HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

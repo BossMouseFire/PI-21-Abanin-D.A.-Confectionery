@@ -42,7 +42,9 @@ namespace ConfectioneryDatabaseImplement.Implements
             using (var context = new ConfectioneryDatabase())
             {
                 return context.Orders
-                    .Where(rec => rec.PastryId == model.PastryId)
+                    .Include(rec => rec.Pastry)
+                    .Where(rec => rec.PastryId == model.PastryId || 
+                    rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                     .Select(order => new OrderViewModel
                     {
                         Id = order.Id,

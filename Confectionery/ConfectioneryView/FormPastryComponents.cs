@@ -3,12 +3,12 @@ using ConfectioneryContracts.BusinessLogicsContracts;
 using System;
 using System.Windows.Forms;
 
-namespace ConfectioneryShopView
+namespace ConfectioneryView
 {
-    public partial class FormReportProductComponents : Form
+    public partial class FormPastryComponents : Form
     {
         private readonly IReportLogic _logic;
-        public FormReportProductComponents(IReportLogic logic)
+        public FormPastryComponents(IReportLogic logic)
         {
             InitializeComponent();
             _logic = logic;

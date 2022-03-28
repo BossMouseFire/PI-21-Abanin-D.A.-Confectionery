@@ -26,10 +26,8 @@ namespace ConfectioneryFileImplement.Implements
             {
                 return null;
             }
-            return source.Orders
-                .Where(rec => rec.Id.Equals(model.Id))
-                .Select(CreateModel)
-                .ToList();
+            return source.Orders.Where(rec => rec.PastryId == model.PastryId ||
+                (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)).Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
