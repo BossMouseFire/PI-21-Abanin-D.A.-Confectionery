@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfectioneryDatabaseImplem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryRestApi", "ConfectioneryRestApi\ConfectioneryRestApi.csproj", "{416440F3-070F-491F-8B49-03BF601017C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryClientApp", "ConfectioneryClientApp\ConfectioneryClientApp.csproj", "{B18365B8-3713-4621-B02D-3763E209CBF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfectioneryShowClientApp", "ConfectioneryClientApp\ConfectioneryShowClientApp.csproj", "{B18365B8-3713-4621-B02D-3763E209CBF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,14 +15,17 @@ namespace ConfectioneryFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string PastryFileName = "Pastry.xml";
+        private readonly string ClientFileName = "Client.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Pastry> Pastries { get; set; }
+        public List<Client> Clients { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Pastries = LoadPastries();
+            Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -39,6 +42,28 @@ namespace ConfectioneryFileImplement
             singleton.SaveComponents(instance.Components);
             singleton.SaveOrders(instance.Orders);
             singleton.SaveParties(instance.Pastries);
+            singleton.SaveClients(instance.Clients);
+        }
+
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                var xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    }) ;
+                }
+            }
+            return list;
         }
 
         private List<Component> LoadComponents()
@@ -128,6 +153,21 @@ namespace ConfectioneryFileImplement
                 }
             }
             return list;
+        }
+        private void SaveClients(List<Client> Clients)
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("FIO", client.FIO)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
         }
         private void SaveComponents(List<Component> Components)
         {

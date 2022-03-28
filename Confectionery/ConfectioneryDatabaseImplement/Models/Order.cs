@@ -10,6 +10,8 @@ namespace ConfectioneryDatabaseImplement.Models
 
         public int PastryId { get; set; }
 
+        public int ClientId { get; set; }
+
         public Pastry Pastry { get; set; }
 
         [Required]

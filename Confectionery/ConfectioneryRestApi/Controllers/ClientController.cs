@@ -19,7 +19,7 @@ namespace ConfectioneryRestApi.Controllers
         {
             var list = _logic.Read(new ClientBindingModel
             {
-                Email = login,
+                Login = login,
                 Password = password
             });
             return (list != null && list.Count > 0) ? list[0] : null;

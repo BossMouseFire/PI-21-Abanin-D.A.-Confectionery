@@ -98,6 +98,7 @@ namespace ConfectioneryListImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.PastryId = model.PastryId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -109,11 +110,14 @@ namespace ConfectioneryListImplement.Implements
         private OrderViewModel CreateModel(Order order)
         {
             var pastryName = source.Pastries[order.PastryId - 1].PastryName;
+            var clientFIO = source.Clients[order.ClientId - 1].FIO;
             return new OrderViewModel
             {
                 Id = order.Id,
                 PastryId = order.PastryId,
                 PastryName = pastryName,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),

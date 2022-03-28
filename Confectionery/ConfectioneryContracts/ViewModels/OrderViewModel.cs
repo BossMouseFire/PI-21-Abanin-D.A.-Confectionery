@@ -9,6 +9,9 @@ namespace ConfectioneryContracts.ViewModels
         public int PastryId { get; set; }
         [DisplayName("Изделие")]
         public string PastryName { get; set; }
+        public int ClientId { get; set; }
+        [DisplayName("ФИО клиента")]
+        public string ClientFIO { get; set; }
         [DisplayName("Количество")]
         public int Count { get; set; }
         [DisplayName("Сумма")]

@@ -43,12 +43,12 @@ namespace ConfectioneryShowClientApp.Controllers
                 APIClient.PostRequest("api/client/updatedata", new ClientBindingModel
                 {
                     Id = Program.Client.Id,
-                    ClientFIO = fio,
-                    Email = login,
+                    FIO = fio,
+                    Login = login,
                     Password = password
                 });
-                Program.Client.ClientFIO = fio;
-                Program.Client.Email = login;
+                Program.Client.FIO = fio;
+                Program.Client.Login = login;
                 Program.Client.Password = password;
                 Response.Redirect("Index");
                 return;
@@ -76,8 +76,7 @@ namespace ConfectioneryShowClientApp.Controllers
             if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
             {
                 Program.Client =
-                APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password
-                }");
+                APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password}");
                 if (Program.Client == null)
                 {
                     throw new Exception("Неверный логин/пароль");
@@ -101,8 +100,8 @@ namespace ConfectioneryShowClientApp.Controllers
                 APIClient.PostRequest("api/client/register", new
                 ClientBindingModel
                 {
-                    ClientFIO = fio,
-                    Email = login,
+                    FIO = fio,
+                    Login = login,
                     Password = password
                 });
                 Response.Redirect("Enter");
