@@ -31,7 +31,6 @@ namespace ConfectioneryView
         {
             this.buttonSaveToExcel = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PastryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Component = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,7 +51,6 @@ namespace ConfectioneryView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
             this.PastryName,
             this.Component,
             this.Count});
@@ -61,12 +59,6 @@ namespace ConfectioneryView
             this.dataGridView.RowTemplate.Height = 25;
             this.dataGridView.Size = new System.Drawing.Size(743, 344);
             this.dataGridView.TabIndex = 1;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Column1";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
             // 
             // PastryName
             // 
@@ -105,7 +97,6 @@ namespace ConfectioneryView
 
         private System.Windows.Forms.Button buttonSaveToExcel;
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn PastryName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Component;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;

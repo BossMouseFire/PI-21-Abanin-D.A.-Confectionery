@@ -31,11 +31,11 @@ namespace ConfectioneryBusinessLogic.OfficePackage
                 {
                     ColumnName = "A",
                     RowIndex = rowIndex,
-                    Text = pc.ComponentName,
+                    Text = pc.PastryName,
                     StyleInfo = ExcelStyleInfoType.Text
                 });
                 rowIndex++;
-                foreach (var product in pc.Pastries)
+                foreach (var product in pc.Components)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {

@@ -34,25 +34,21 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportPastryComponentViewModel> GetPastryComponent()
         {
-            var components = _componentStorage.GetFullList();
             var products = _productStorage.GetFullList();
             var list = new List<ReportPastryComponentViewModel>();
-            foreach (var component in components)
+            foreach (var product in products)
             {
                 var record = new ReportPastryComponentViewModel
                 {
-                    ComponentName = component.ComponentName,
-                    Pastries = new List<Tuple<string, int>>(),
+                    PastryName = product.PastryName,
+                    Components = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var product in products)
+                foreach (var component in product.PastryComponents)
                 {
-                    if (product.PastryComponents.ContainsKey(component.Id))
-                    {
-                        record.Pastries.Add(new Tuple<string, int>(product.PastryName,
-                            product.PastryComponents[component.Id].Item2));
-                        record.TotalCount += product.PastryComponents[component.Id].Item2;
-                    }
+                    record.Components.Add(new Tuple<string, int>(component.Value.Item1,
+                            component.Value.Item2));
+                    record.TotalCount += component.Value.Item2;
                 }
                 list.Add(record);
             }
@@ -90,7 +86,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                Components = _componentStorage.GetFullList()
+                Pastries = _productStorage.GetFullList()
             });
         }
         /// <summary>

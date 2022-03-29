@@ -23,8 +23,8 @@ namespace ConfectioneryView
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        dataGridView.Rows.Add(new object[] { elem.ComponentName, "", "" });
-                        foreach (var listElem in elem.Pastries)
+                        dataGridView.Rows.Add(new object[] { elem.PastryName, "", "" });
+                        foreach (var listElem in elem.Components)
                         {
                             dataGridView.Rows.Add(new object[] { "", listElem.Item1, listElem.Item2 });
                         }
