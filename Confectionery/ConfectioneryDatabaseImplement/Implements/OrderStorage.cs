@@ -41,30 +41,20 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return null;
             }
-
-            using (var context = new ConfectioneryDatabase())
-            {
-                return context.Orders
-                    .Include(rec => rec.Pastry)
-                    .Include(rec => rec.Client)
-                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date)
-                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date)
-                    || (model.ClientId.HasValue && rec.ClientId == model.ClientId))
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        PastryId = rec.PastryId,
-                        PastryName = rec.Pastry.PastryName,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status.ToString(),
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement,
-                        ClientId = rec.ClientId,
-                        ClientFIO = rec.Client.FIO
-                    })
-                    .ToList();
-            }
+            using var context = new ConfectioneryDatabase();
+            return context.Orders
+                .Include(rec => rec.Pastry)
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue &&
+                rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue &&
+                rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= 
+                model.DateTo.Value.Date) || (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
+                .Select(CreateModel)
+                .ToList();
         }
 
         public OrderViewModel GetElement(OrderBindingModel model)
