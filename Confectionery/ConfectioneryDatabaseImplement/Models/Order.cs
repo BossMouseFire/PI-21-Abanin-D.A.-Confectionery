@@ -14,6 +14,8 @@ namespace ConfectioneryDatabaseImplement.Models
 
         public Pastry Pastry { get; set; }
 
+        public Client Client { get; set; }
+
         [Required]
         public int Count { get; set; }
 

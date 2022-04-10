@@ -1,6 +1,6 @@
 using System;
 
-namespace ConfectioneryShowClientApp.Models
+namespace ConfectioneryClientApp.Models
 {
     public class ErrorViewModel
     {

@@ -19,13 +19,12 @@ namespace ConfectioneryRestApi.Controllers
             _pastry = pastry;
         }
         [HttpGet]
-        public List<PastryViewModel> GetProductList() => _pastry.Read(null)?.ToList();
+        public List<PastryViewModel> GetPastryList() => _pastry.Read(null)?.ToList();
         [HttpGet]
-        public PastryViewModel GetProduct(int productId) => _pastry.Read(new PastryBindingModel
-        { Id = productId })?[0];
+        public PastryViewModel GetPastry(int pastryId) => _pastry.Read(new PastryBindingModel
+        { Id = pastryId })?[0];
         [HttpGet]
-        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new
-       OrderBindingModel
+        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel
         { ClientId = clientId });
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) =>

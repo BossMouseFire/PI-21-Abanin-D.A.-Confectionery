@@ -32,11 +32,9 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
         {
             var element = _clientStorage.GetElement(new ClientBindingModel
             {
-                FIO = model.FIO,
-                Login = model.Login,
-                Password = model.Password
+                Email = model.Email,
             });
-            if (element != null && element.Login != model.Login)
+            if (element != null && element.Id != model.Id)
             {
                 throw new Exception("Уже есть клиент с таким логином");
             }

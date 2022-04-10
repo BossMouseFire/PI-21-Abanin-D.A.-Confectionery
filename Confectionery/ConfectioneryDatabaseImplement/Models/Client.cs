@@ -18,6 +18,6 @@ namespace ConfectioneryDatabaseImplement.Models
         public string Password { get; set; }
 
         [ForeignKey("ClientId")]
-        List<Pastry> Pastries { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

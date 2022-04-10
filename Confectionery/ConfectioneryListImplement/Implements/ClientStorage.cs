@@ -7,109 +7,128 @@ using System.Collections.Generic;
 
 namespace ConfectioneryListImplement.Implements
 {
-    public class ClientStorage: IClientStorage
+    public class ClientStorage : IClientStorage
     {
-        private readonly DataListSingleton source;
+        private readonly DataListSingleton _source;
+
         public ClientStorage()
         {
-            source = DataListSingleton.GetInstance();
+            _source = DataListSingleton.GetInstance();
         }
+
         public List<ClientViewModel> GetFullList()
         {
             var result = new List<ClientViewModel>();
-            foreach (var client in source.Clients)
+
+            foreach (var client in _source.Clients)
             {
                 result.Add(CreateModel(client));
             }
+
             return result;
         }
+
         public List<ClientViewModel> GetFilteredList(ClientBindingModel model)
         {
             if (model == null)
             {
                 return null;
             }
+
             var result = new List<ClientViewModel>();
-            foreach (var client in source.Clients)
+
+            foreach (var client in _source.Clients)
             {
-                if (client.FIO.Contains(model.FIO))
+                if (client.Login.Contains(model.Email))
                 {
                     result.Add(CreateModel(client));
                 }
             }
+
             return result;
         }
+
         public ClientViewModel GetElement(ClientBindingModel model)
         {
             if (model == null)
             {
                 return null;
             }
-            foreach (var client in source.Clients)
+
+            foreach (var client in _source.Clients)
             {
-                if (client.Id == model.Id || client.Login ==
-               model.Login)
+                if (client.Id == model.Id)
                 {
                     return CreateModel(client);
                 }
             }
+
             return null;
         }
+
         public void Insert(ClientBindingModel model)
         {
-            var tempClient = new Client { Id = 1 };
-            foreach (var client in source.Clients)
+            var tmpClient = new Client { Id = 1 };
+
+            foreach (var client in _source.Clients)
             {
-                if (client.Id >= tempClient.Id)
+                if (client.Id >= tmpClient.Id)
                 {
-                    tempClient.Id = client.Id + 1;
+                    tmpClient.Id = client.Id + 1;
                 }
             }
-            source.Clients.Add(CreateModel(model, tempClient));
+
+            _source.Clients.Add(CreateModel(model, tmpClient));
         }
+
         public void Update(ClientBindingModel model)
         {
-            Client tempClient = null;
-            foreach (var client in source.Clients)
+            Client tmpClient = null;
+
+            foreach (var client in _source.Clients)
             {
                 if (client.Id == model.Id)
                 {
-                    tempClient = client;
+                    tmpClient = client;
                 }
             }
-            if (tempClient == null)
+
+            if (tmpClient == null)
             {
-                throw new Exception("Клиент не найден");
+                throw new Exception("Элемент не найден");
             }
-            CreateModel(model, tempClient);
+
+            CreateModel(model, tmpClient);
         }
+
         public void Delete(ClientBindingModel model)
         {
-            for (int i = 0; i < source.Clients.Count; ++i)
+            for (int i = 0; i < _source.Clients.Count; ++i)
             {
-                if (source.Clients[i].Id == model.Id.Value)
+                if (_source.Clients[i].Id == model.Id.Value)
                 {
-                    source.Clients.RemoveAt(i);
+                    _source.Clients.RemoveAt(i);
                     return;
                 }
             }
-            throw new Exception("Клиент не найден");
+            throw new Exception("Элемент не найден");
         }
-        private static Client CreateModel(ClientBindingModel model, Client client)
+
+        private Client CreateModel(ClientBindingModel model, Client client)
         {
             client.FIO = model.FIO;
-            client.Login = model.Login;
+            client.Login = model.Email;
             client.Password = model.Password;
-
             return client;
         }
-        private static ClientViewModel CreateModel(Client client)
+
+        private ClientViewModel CreateModel(Client client)
         {
             return new ClientViewModel
             {
                 Id = client.Id,
                 FIO = client.FIO,
-                Login = client.Login,
+                Email = client.Login,
                 Password = client.Password
             };
         }

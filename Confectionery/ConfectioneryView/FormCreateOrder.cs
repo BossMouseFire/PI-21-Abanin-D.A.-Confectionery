@@ -11,14 +11,29 @@ namespace ConfectioneryView
     {
         private readonly IPastryLogic _logicP;
         private readonly IOrderLogic _logicO;
-        public FormCreateOrder(IPastryLogic logicP, IOrderLogic logicO)
+        private readonly IClientLogic _logicС;
+        public FormCreateOrder(IPastryLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
             _logicP = logicP;
             _logicO = logicO;
+            _logicС = logicC;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
+            List<ClientViewModel> clientsList = _logicС.Read(null);
+            if (clientsList != null)
+            {
+                comboBoxClient.DisplayMember = "FIO";
+                comboBoxClient.ValueMember = "Id";
+                comboBoxClient.DataSource = clientsList;
+                comboBoxClient.SelectedItem = null;
+            }
+            else
+            {
+                throw new Exception("Не удалось загрузить список клиентов");
+            }
+
             List<PastryViewModel> list = _logicP.Read(null);
             if (list != null)
             {
@@ -77,6 +92,7 @@ namespace ConfectioneryView
             {
                 _logicO.CreateOrder(new CreateOrderBindingModel
                 {
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     PastryId = Convert.ToInt32(comboBoxPastry.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)

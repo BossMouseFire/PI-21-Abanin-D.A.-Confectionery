@@ -2,7 +2,7 @@ using ConfectioneryContracts.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ConfectioneryShowClientApp
+namespace ConfectioneryClientApp
 {
     public class Program
     {

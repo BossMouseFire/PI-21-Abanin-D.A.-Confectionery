@@ -146,6 +146,11 @@ namespace ConfectioneryView
             LoadData();
         }
 
+        private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
     }
 
 }

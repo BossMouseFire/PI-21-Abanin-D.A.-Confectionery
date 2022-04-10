@@ -5,17 +5,17 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace ConfectioneryShowClientApp
+
+namespace ConfectioneryClientApp
 {
-    public static class APIClient
+    public class APIClient
     {
         private static readonly HttpClient client = new HttpClient();
         public static void Connect(IConfiguration configuration)
         {
             client.BaseAddress = new Uri(configuration["IPAddress"]);
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new
-           MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         public static T GetRequest<T>(string requestUrl)
         {

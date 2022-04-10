@@ -100,6 +100,7 @@ namespace ConfectioneryFileImplement
                         list.Add(new Order
                         {
                             Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                             PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
                             Count = Convert.ToInt32(elem.Element("Count").Value),
                             Sum = Convert.ToInt32(elem.Element("Sum").Value),
@@ -114,6 +115,7 @@ namespace ConfectioneryFileImplement
                         list.Add(new Order
                         {
                             Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                            ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                             PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
                             Count = Convert.ToInt32(elem.Element("Count").Value),
                             Sum = Convert.ToInt32(elem.Element("Sum").Value),
@@ -193,6 +195,7 @@ namespace ConfectioneryFileImplement
                 {
                     xElement.Add(new XElement("Order",
                         new XAttribute("Id", order.Id),
+                        new XElement("ClientId", order.ClientId),
                         new XElement("PastryId", order.PastryId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
