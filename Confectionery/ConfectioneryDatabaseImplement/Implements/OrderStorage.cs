@@ -29,7 +29,9 @@ namespace ConfectioneryDatabaseImplement.Implements
                         DateCreate = rec.DateCreate,
                         DateImplement = rec.DateImplement,
                         ClientId = rec.ClientId,
-                        ClientFIO = rec.Client.FIO
+                        ClientFIO = rec.Client.FIO,
+                        ImplementerId = rec.ImplementerId,
+                        ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : ""
                     })
                     .ToList();
             }
@@ -53,7 +55,21 @@ namespace ConfectioneryDatabaseImplement.Implements
                 model.DateTo.Value.Date) || (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
                 (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
                 (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
-                .Select(CreateModel)
+                .Select(rec => new OrderViewModel
+                {
+                    Id = rec.Id,
+                    PastryId = rec.PastryId,
+                    PastryName = rec.Pastry.PastryName,
+                    Count = rec.Count,
+                    Sum = rec.Sum,
+                    Status = rec.Status.ToString(),
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.FIO,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : ""
+                })
                 .ToList();
         }
 
@@ -69,6 +85,7 @@ namespace ConfectioneryDatabaseImplement.Implements
                 Order order = context.Orders
                     .Include(rec => rec.Pastry)
                     .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
                     .FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
@@ -82,7 +99,9 @@ namespace ConfectioneryDatabaseImplement.Implements
                     DateCreate = order.DateCreate,
                     DateImplement = order.DateImplement,
                     ClientId = order.ClientId,
-                    ClientFIO = order.Client.FIO
+                    ClientFIO = order.Client.FIO,
+                    ImplementerId = order.ImplementerId,
+                    ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.ImplementerFIO : ""
                 } :
                 null;
             }
@@ -100,7 +119,8 @@ namespace ConfectioneryDatabaseImplement.Implements
                     Status = model.Status,
                     DateCreate = model.DateCreate,
                     DateImplement = model.DateImplement,
-                    ClientId = model.ClientId.Value
+                    ClientId = model.ClientId.Value,
+                    ImplementerId = model.ImplementerId,
                 };
 
                 context.Orders.Add(order);
@@ -114,7 +134,11 @@ namespace ConfectioneryDatabaseImplement.Implements
         {
             using (var context = new ConfectioneryDatabase())
             {
-                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                Order order = context.Orders
+                    .Include(rec => rec.Pastry)
+                    .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
+                    .FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
                 {
                     throw new Exception("Элемент не найден");
@@ -126,6 +150,7 @@ namespace ConfectioneryDatabaseImplement.Implements
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
                 order.ClientId = model.ClientId.Value;
+                order.ImplementerId = model.ImplementerId;
 
                 CreateModel(model, order);
                 context.SaveChanges();
@@ -136,7 +161,11 @@ namespace ConfectioneryDatabaseImplement.Implements
         {
             using (var context = new ConfectioneryDatabase())
             {
-                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                Order order = context.Orders
+                    .Include(rec => rec.Pastry)
+                    .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
+                    .FirstOrDefault(rec => rec.Id == model.Id);
                 if (order != null)
                 {
                     context.Orders.Remove(order);

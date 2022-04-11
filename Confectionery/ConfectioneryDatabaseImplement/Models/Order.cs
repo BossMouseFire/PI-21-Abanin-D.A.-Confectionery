@@ -12,9 +12,13 @@ namespace ConfectioneryDatabaseImplement.Models
 
         public int ClientId { get; set; }
 
-        public Pastry Pastry { get; set; }
+        public int? ImplementerId { get; set; }
 
-        public Client Client { get; set; }
+        public virtual Pastry Pastry { get; set; }
+
+        public virtual Client Client { get; set; }
+
+        public virtual Implementer Implementer { get; set; }
 
         [Required]
         public int Count { get; set; }

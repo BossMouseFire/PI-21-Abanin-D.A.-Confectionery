@@ -59,7 +59,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Выполняется,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = order.DateImplement,
+                    ImplementerId = model.ImplementerId
                 });
             }
         }
@@ -81,7 +82,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Готов,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = order.DateImplement,
+                    ImplementerId = model.ImplementerId
                 });
             }
         }
@@ -103,7 +105,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Выдан,
                     DateCreate = order.DateCreate,
-                    DateImplement = DateTime.Now
+                    DateImplement = DateTime.Now,
+                    ImplementerId = model.ImplementerId
                 });
             }
         }

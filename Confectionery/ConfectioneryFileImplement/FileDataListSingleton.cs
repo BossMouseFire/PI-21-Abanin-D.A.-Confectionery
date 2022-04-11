@@ -16,16 +16,21 @@ namespace ConfectioneryFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string PastryFileName = "Pastry.xml";
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
+
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Pastry> Pastries { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Pastries = LoadPastries();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -43,6 +48,7 @@ namespace ConfectioneryFileImplement
             singleton.SaveOrders(instance.Orders);
             singleton.SaveParties(instance.Pastries);
             singleton.SaveClients(instance.Clients);
+            singleton.SaveImplementers(instance.Implementers);
         }
 
         private List<Client> LoadClients()
@@ -95,36 +101,33 @@ namespace ConfectioneryFileImplement
                 {
                     var dataCreate = elem.Element("DateCreate").Value;
                     var dataImplement = elem.Element("DateImplement").Value;
+
+                    DateTime? dataResult = null;
+                    int? implementerId = null;
+
                     if (dataImplement != "")
                     {
-                        list.Add(new Order
-                        {
-                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                            ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
-                            PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
-                            Count = Convert.ToInt32(elem.Element("Count").Value),
-                            Sum = Convert.ToInt32(elem.Element("Sum").Value),
-                            Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
-                            DateCreate = DateTime.ParseExact(dataCreate, "yyyy-MM-dd hh:mm",
-                                           null),
-                            DateImplement = DateTime.ParseExact(dataImplement, "yyyy-MM-dd hh:mm",
-                                           null),
-                        });
-                    } else
-                    {
-                        list.Add(new Order
-                        {
-                            Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                            ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
-                            PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
-                            Count = Convert.ToInt32(elem.Element("Count").Value),
-                            Sum = Convert.ToInt32(elem.Element("Sum").Value),
-                            Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
-                            DateCreate = DateTime.ParseExact(dataCreate, "yyyy-MM-dd hh:mm",
-                                           null),
-                        });
+                        dataResult = DateTime.ParseExact(dataImplement, "yyyy-MM-dd hh:mm",
+                                           null);
                     }
-                    
+                    if (elem.Element("ImplementerId").Value != "")
+                    {
+                        implementerId = Convert.ToInt32(elem.Element("ImplementerId").Value);
+                    }
+
+                    list.Add(new Order
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        PastryId = Convert.ToInt32(elem.Element("PastryId").Value),
+                        ImplementerId = implementerId,
+                        Count = Convert.ToInt32(elem.Element("Count").Value),
+                        Sum = Convert.ToInt32(elem.Element("Sum").Value),
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
+                        DateCreate = DateTime.ParseExact(dataCreate, "yyyy-MM-dd hh:mm",
+                                           null),
+                        DateImplement = dataResult,
+                    });
                 }
             }
             return list;
@@ -151,6 +154,26 @@ namespace ConfectioneryFileImplement
                         PastryName = elem.Element("PastryName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value),
                         PastryComponents = prodComp
+                    });
+                }
+            }
+            return list;
+        }
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                var xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Imlementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerFIO = elem.Attribute("ImplementerFIO").Value,
+                        PauseTime = Convert.ToInt32(elem.Attribute("PauseTime").Value),
+                        WorkingTime = Convert.ToInt32(elem.Attribute("WorkingTime").Value)
                     });
                 }
             }
@@ -197,6 +220,7 @@ namespace ConfectioneryFileImplement
                         new XAttribute("Id", order.Id),
                         new XElement("ClientId", order.ClientId),
                         new XElement("PastryId", order.PastryId),
+                        new XElement("ImplementerId", order.ImplementerId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
                         new XElement("Status", order.Status),
@@ -230,6 +254,23 @@ namespace ConfectioneryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(PastryFileName);
+            }
+        }
+        private void SaveImplementers(List<Implementer> Implementers)
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                        new XAttribute("Id", implementer.Id),
+                        new XAttribute("ImplementerFIO", implementer.ImplementerFIO),
+                        new XAttribute("WorkingTime", implementer.WorkingTime),
+                        new XAttribute("PauseTime", implementer.PauseTime)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
             }
         }
     }

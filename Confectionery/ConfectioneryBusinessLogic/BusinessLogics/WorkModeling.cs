@@ -6,7 +6,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-namespace AbstractShopBusinessLogic.BusinessLogics
+
+namespace ConfectioneryBusinessLogic.BusinessLogics
 {
     public class WorkModeling : IWorkProcess
     {
