@@ -83,7 +83,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Status = OrderStatus.Готов,
                     DateCreate = order.DateCreate,
                     DateImplement = order.DateImplement,
-                    ImplementerId = model.ImplementerId
+                    ImplementerId = order.ImplementerId
                 });
             }
         }
@@ -106,7 +106,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Status = OrderStatus.Выдан,
                     DateCreate = order.DateCreate,
                     DateImplement = DateTime.Now,
-                    ImplementerId = model.ImplementerId
+                    ImplementerId = order.ImplementerId
                 });
             }
         }
