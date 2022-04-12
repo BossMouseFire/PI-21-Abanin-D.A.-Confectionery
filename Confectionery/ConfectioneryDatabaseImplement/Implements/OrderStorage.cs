@@ -18,6 +18,7 @@ namespace ConfectioneryDatabaseImplement.Implements
                 return context.Orders
                     .Include(rec => rec.Pastry)
                     .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
                     .Select(rec => new OrderViewModel
                     {
                         Id = rec.Id,
@@ -135,9 +136,6 @@ namespace ConfectioneryDatabaseImplement.Implements
             using (var context = new ConfectioneryDatabase())
             {
                 Order order = context.Orders
-                    .Include(rec => rec.Pastry)
-                    .Include(rec => rec.Client)
-                    .Include(rec => rec.Implementer)
                     .FirstOrDefault(rec => rec.Id == model.Id);
                 if (order == null)
                 {
