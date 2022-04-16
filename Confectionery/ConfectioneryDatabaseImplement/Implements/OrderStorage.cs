@@ -185,16 +185,16 @@ namespace ConfectioneryDatabaseImplement.Implements
 
             using (var context = new ConfectioneryDatabase())
             {
-                Pastry dress = context.Pastries.FirstOrDefault(rec => rec.Id == model.PastryId);
-                if (dress != null)
+                Pastry pastry = context.Pastries.FirstOrDefault(rec => rec.Id == model.PastryId);
+                if (pastry != null)
                 {
-                    if (dress.Orders == null)
+                    if (pastry.Orders == null)
                     {
-                        dress.Orders = new List<Order>();
+                        pastry.Orders = new List<Order>();
                     }
 
-                    dress.Orders.Add(order);
-                    context.Pastries.Update(dress);
+                    pastry.Orders.Add(order);
+                    context.Pastries.Update(pastry);
                     context.SaveChanges();
                 }
                 else
