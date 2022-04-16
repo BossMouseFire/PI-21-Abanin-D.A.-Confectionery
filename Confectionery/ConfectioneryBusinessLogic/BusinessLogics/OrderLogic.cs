@@ -60,11 +60,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     .PastryComponents
                     .ToDictionary(pastry => pastry.Key, pastry => pastry.Value.Item2 * order.Count);
 
-                if (!_warehouseStorage.CheckBalance(components))
-                {
-                    throw new Exception("Недостаточно компонентов");
-                }
-                _warehouseStorage.WriteOffBalance(components);
+                _warehouseStorage.changeBalance(components);
 
                 _orderStorage.Update(new OrderBindingModel{
                     Id = order.Id,
