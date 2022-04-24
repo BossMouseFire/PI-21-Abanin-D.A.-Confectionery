@@ -5,15 +5,20 @@ using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.ViewModels;
 using ConfectioneryContracts.Enums;
+using System.Linq;
 
 namespace ConfectioneryBusinessLogic.BusinessLogics
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IWarehouseStorage _warehouseStorage;
+        private readonly IPastryStorage _pastryStorage;
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPastryStorage pastryStorage)
         {
             _orderStorage = orderStorage;
+            _warehouseStorage = warehouseStorage;
+            _pastryStorage = pastryStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -50,6 +55,13 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             });
             if (order.Status == "Принят")
             {
+                PastryViewModel pastry = _pastryStorage.GetElement(new PastryBindingModel { Id = order.PastryId });
+                Dictionary<int, int> components = pastry
+                    .PastryComponents
+                    .ToDictionary(pastry => pastry.Key, pastry => pastry.Value.Item2 * order.Count);
+
+                _warehouseStorage.changeBalance(components);
+
                 _orderStorage.Update(new OrderBindingModel{
                     Id = order.Id,
                     PastryId = order.PastryId,

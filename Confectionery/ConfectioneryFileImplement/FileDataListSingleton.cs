@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Globalization;
 
 namespace ConfectioneryFileImplement
 {
@@ -15,14 +14,18 @@ namespace ConfectioneryFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string PastryFileName = "Pastry.xml";
+        private readonly string WarehouseFileName = "Warehouse.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Pastry> Pastries { get; set; }
+        public List<Warehouse> Warehouses { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Pastries = LoadPastries();
+            Warehouses = LoadWarehouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -39,6 +42,7 @@ namespace ConfectioneryFileImplement
             singleton.SaveComponents(instance.Components);
             singleton.SaveOrders(instance.Orders);
             singleton.SaveParties(instance.Pastries);
+            singleton.SaveWarehouses(instance.Warehouses);
         }
 
         private List<Component> LoadComponents()
@@ -129,6 +133,34 @@ namespace ConfectioneryFileImplement
             }
             return list;
         }
+        private List<Warehouse> LoadWarehouses()
+        {
+            var list = new List<Warehouse>();
+            if (File.Exists(WarehouseFileName))
+            {
+                var xDocument = XDocument.Load(WarehouseFileName);
+                var xElements = xDocument.Root.Elements("Warehouse").ToList();
+                foreach (var elem in xElements)
+                {
+                    var warComp = new Dictionary<int, int>();
+                    foreach (var component in
+                        elem.Element("WarehouseComponents").Elements("WarehouseComponent").ToList())
+                    {
+                        warComp.Add(Convert.ToInt32(component.Element("Key").Value),
+                            Convert.ToInt32(component.Element("Value").Value));
+                    }
+                    list.Add(new Warehouse
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        WarehouseName = elem.Element("WarehouseName").Value,
+                        Responsible = elem.Element("Responsible").Value,
+                        DateCreate = DateTime.Parse(elem.Element("DateCreate").Value),
+                        WarehouseComponents = warComp
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveComponents(List<Component> Components)
         {
             if (Components != null)
@@ -187,6 +219,31 @@ namespace ConfectioneryFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(PastryFileName);
+            }
+        }
+        private void SaveWarehouses(List<Warehouse> Warehouses)
+        {
+            if (Warehouses != null)
+            {
+                var xElement = new XElement("Warehouses");
+                foreach (var warehouse in Warehouses)
+                {
+                    var compElement = new XElement("WarehouseComponents");
+                    foreach (var component in warehouse.WarehouseComponents)
+                    {
+                        compElement.Add(new XElement("WarehouseComponent",
+                            new XElement("Key", component.Key),
+                            new XElement("Value", component.Value)));
+                    }
+                    xElement.Add(new XElement("Warehouse",
+                        new XAttribute("Id", warehouse.Id),
+                        new XElement("WarehouseName", warehouse.WarehouseName),
+                        new XElement("Responsible", warehouse.Responsible),
+                        new XElement("DateCreate", warehouse.DateCreate),
+                        compElement));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(WarehouseFileName);
             }
         }
     }

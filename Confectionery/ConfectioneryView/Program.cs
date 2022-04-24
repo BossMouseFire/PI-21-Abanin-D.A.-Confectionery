@@ -45,6 +45,8 @@ namespace ConfectioneryView
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
                 HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPastryStorage, PastryStorage>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseStorage, WarehouseStorage>(new
                 HierarchicalLifetimeManager());
             currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new
                 HierarchicalLifetimeManager());
@@ -59,6 +61,8 @@ namespace ConfectioneryView
             currentContainer.RegisterType<AbstractSaveToPdf, SaveToPdf>(new
                 HierarchicalLifetimeManager());
             currentContainer.RegisterType<AbstractSaveToWord, SaveToWord>(new
+            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseLogic, WarehouseLogic>(new
                 HierarchicalLifetimeManager());
             return currentContainer;
         }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfectioneryDatabaseImplement.Migrations
 {
     [DbContext(typeof(ConfectioneryDatabase))]
-    [Migration("20220228202356_InitialCreate")]
+    [Migration("20220424113950_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,54 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.ToTable("PastryComponents");
                 });
 
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Responsible")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WarehouseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+                });
+
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.WarehouseComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("WarehouseComponents");
+                });
+
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("ConfectioneryDatabaseImplement.Models.Pastry", "Pastry")
@@ -143,9 +191,30 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.Navigation("Pastry");
                 });
 
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.WarehouseComponent", b =>
+                {
+                    b.HasOne("ConfectioneryDatabaseImplement.Models.Component", "Component")
+                        .WithMany("WarehouseComponents")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConfectioneryDatabaseImplement.Models.Warehouse", "Warehouse")
+                        .WithMany("WarehouseComponents")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Component", b =>
                 {
                     b.Navigation("PastryComponents");
+
+                    b.Navigation("WarehouseComponents");
                 });
 
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Pastry", b =>
@@ -153,6 +222,11 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PastryComponents");
+                });
+
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Warehouse", b =>
+                {
+                    b.Navigation("WarehouseComponents");
                 });
 #pragma warning restore 612, 618
         }

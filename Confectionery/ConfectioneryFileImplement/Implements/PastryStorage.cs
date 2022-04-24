@@ -37,9 +37,7 @@ namespace ConfectioneryFileImplement.Implements
             {
                 return null;
             }
-            var pastry = source.Pastries
-            .FirstOrDefault(rec => rec.PastryName == model.PastryName || rec.Id
-           == model.Id);
+            var pastry = source.Pastries.FirstOrDefault(rec => rec.PastryName == model.PastryName || rec.Id == model.Id);
             return pastry != null ? CreateModel(pastry) : null;
         }
         public void Insert(PastryBindingModel model)

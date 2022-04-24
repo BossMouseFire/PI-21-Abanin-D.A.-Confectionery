@@ -15,11 +15,14 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
         private readonly IComponentStorage _componentStorage;
         private readonly IPastryStorage _productStorage;
         private readonly IOrderStorage _orderStorage;
+        private readonly IWarehouseStorage _warehouseStorage;
         private readonly AbstractSaveToExcel _saveToExcel;
         private readonly AbstractSaveToWord _saveToWord;
         private readonly AbstractSaveToPdf _saveToPdf;
-        public ReportLogic(IPastryStorage productStorage, IComponentStorage componentStorage, IOrderStorage orderStorage,
-            AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord, AbstractSaveToPdf saveToPdf)
+        public ReportLogic(IPastryStorage productStorage, IComponentStorage componentStorage, 
+            IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, 
+            AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord, 
+            AbstractSaveToPdf saveToPdf)
         {
             _productStorage = productStorage;
             _componentStorage = componentStorage;
@@ -27,6 +30,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             _saveToExcel = saveToExcel;
             _saveToWord = saveToWord;
             _saveToPdf = saveToPdf;
+            _warehouseStorage = warehouseStorage;
         }
         /// <summary>
         /// Получение списка компонент с указанием, в каких изделиях используются
@@ -54,6 +58,28 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             }
             return list;
         }
+        public List<ReportWarehouseComponentViewModel> GetWarehouseComponent()
+        {
+            var warehouses = _warehouseStorage.GetFullList();
+            var list = new List<ReportWarehouseComponentViewModel>();
+            foreach (var warehouse in warehouses)
+            {
+                var record = new ReportWarehouseComponentViewModel
+                {
+                    WarehouseName = warehouse.WarehouseName,
+                    Components = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var component in warehouse.WarehouseComponents)
+                {
+                    record.Components.Add(new Tuple<string, int>(component.Value.Item1, component.Value.Item2));
+                    record.TotalCount += component.Value.Item2;
+                }
+                list.Add(record);
+            }
+            return list;
+        }
+
         /// <summary>
         /// Получение списка заказов за определенный период
         /// </summary>
@@ -89,6 +115,15 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 Pastries = _productStorage.GetFullList()
             });
         }
+        public void SaveWarehouseComponentToExcelFile(ReportBindingModel model)
+        {
+            _saveToExcel.CreateReportWarehouse(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список компонент",
+                WarehouseComponents = GetWarehouseComponent()
+            });
+        }
         /// <summary>
         /// Сохранение компонент с указаеним продуктов в файл-Excel
         /// </summary>
@@ -99,7 +134,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                ProductComponents = GetPastryComponent()
+                PastryComponents = GetPastryComponent()
             });
         }
         /// <summary>
@@ -115,6 +150,15 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
                 Orders = GetOrders(model)
+            });
+        }
+        public void SaveWarehousesToWordFile(ReportBindingModel model)
+        {
+            _saveToWord.CreateDocWarehouse(new WordInfo
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                Warehouses = _warehouseStorage.GetFullList()
             });
         }
     }
