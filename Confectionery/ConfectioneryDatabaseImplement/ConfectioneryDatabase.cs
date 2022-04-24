@@ -9,7 +9,7 @@ namespace ConfectioneryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=confectioneryDB11;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=confectioneryDB33;Trusted_Connection=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }

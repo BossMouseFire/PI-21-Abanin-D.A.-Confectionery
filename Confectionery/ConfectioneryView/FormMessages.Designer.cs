@@ -50,6 +50,7 @@ namespace ConfectioneryView
             this.Controls.Add(this.dataGridView);
             this.Name = "FormMessages";
             this.Text = "Почта";
+            this.Load += new System.EventHandler(this.FormMessages_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

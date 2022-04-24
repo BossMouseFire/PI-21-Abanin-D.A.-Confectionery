@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfectioneryDatabaseImplement.Migrations
 {
     [DbContext(typeof(ConfectioneryDatabase))]
-    [Migration("20220411191313_InitialCreate")]
+    [Migration("20220424105101_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,33 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Implementers");
+                });
+
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfoes");
                 });
 
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Order", b =>
@@ -169,6 +196,15 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.ToTable("PastryComponents");
                 });
 
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("ConfectioneryDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Messages")
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("ConfectioneryDatabaseImplement.Models.Client", "Client")
@@ -215,6 +251,8 @@ namespace ConfectioneryDatabaseImplement.Migrations
 
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Client", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Orders");
                 });
 
