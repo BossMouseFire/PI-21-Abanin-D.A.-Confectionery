@@ -151,35 +151,8 @@ namespace ConfectioneryDatabaseImplement.Implements
                 .ToDictionary(recPC => recPC.ComponentId, recPC => (recPC.Component?.ComponentName, recPC.Count))
             };
         }
-        public bool CheckBalance(Dictionary<int, int> components)
-        {
-            Dictionary<int, int> stockComponents = new Dictionary<int, int>();
-            using var context = new ConfectioneryDatabase();
-            foreach (var warehouse in context.Warehouses)
-            {
-                foreach (var comp in warehouse.WarehouseComponents)
-                {
-                    if (stockComponents.ContainsKey(comp.ComponentId))
-                    {
-                        stockComponents[comp.ComponentId] += comp.Count;
-                    }
-                    else
-                    {
-                        stockComponents.Add(comp.ComponentId, comp.Count);
-                    }
-                }
-            }
-            foreach (var comp in components)
-            {
-                if (!stockComponents.ContainsKey(comp.Key) || stockComponents[comp.Key] < comp.Value)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
 
-        public bool WriteOffBalance(Dictionary<int, int> components)
+        public void changeBalance(Dictionary<int, int> components)
         {
             using var context = new ConfectioneryDatabase();
             using var transaction = context.Database.BeginTransaction();
@@ -213,7 +186,6 @@ namespace ConfectioneryDatabaseImplement.Implements
                 transaction.Rollback();
                 throw;
             }
-            return true;
         }
     }
 }
