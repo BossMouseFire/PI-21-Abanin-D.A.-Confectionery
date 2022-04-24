@@ -38,12 +38,13 @@ namespace ConfectioneryView
             this.PastryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.implementersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокКомпонентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыПоИзделиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.implementersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.worksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -92,7 +93,8 @@ namespace ConfectioneryView
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.отчётыToolStripMenuItem,
-            this.worksToolStripMenuItem});
+            this.worksToolStripMenuItem,
+            this.mailToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(800, 24);
@@ -131,6 +133,13 @@ namespace ConfectioneryView
             this.clientsToolStripMenuItem.Text = "Клиенты";
             this.clientsToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
             // 
+            // implementersToolStripMenuItem
+            // 
+            this.implementersToolStripMenuItem.Name = "implementersToolStripMenuItem";
+            this.implementersToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.implementersToolStripMenuItem.Text = "Исполнители";
+            this.implementersToolStripMenuItem.Click += new System.EventHandler(this.implementersToolStripMenuItem_Click);
+            // 
             // отчётыToolStripMenuItem
             // 
             this.отчётыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -162,19 +171,19 @@ namespace ConfectioneryView
             this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
             this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.OrdersToolStripMenuItem_Click);
             // 
-            // implementersToolStripMenuItem
-            // 
-            this.implementersToolStripMenuItem.Name = "implementersToolStripMenuItem";
-            this.implementersToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.implementersToolStripMenuItem.Text = "Исполнители";
-            this.implementersToolStripMenuItem.Click += new System.EventHandler(this.implementersToolStripMenuItem_Click);
-            // 
             // worksToolStripMenuItem
             // 
             this.worksToolStripMenuItem.Name = "worksToolStripMenuItem";
             this.worksToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
             this.worksToolStripMenuItem.Text = "Запуск работ";
             this.worksToolStripMenuItem.Click += new System.EventHandler(this.worksToolStripMenuItem_Click);
+            // 
+            // mailToolStripMenuItem
+            // 
+            this.mailToolStripMenuItem.Name = "mailToolStripMenuItem";
+            this.mailToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.mailToolStripMenuItem.Text = "Почта";
+            this.mailToolStripMenuItem.Click += new System.EventHandler(this.mailToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -214,5 +223,6 @@ namespace ConfectioneryView
         private System.Windows.Forms.ToolStripMenuItem clientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem implementersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem worksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mailToolStripMenuItem;
     }
 }

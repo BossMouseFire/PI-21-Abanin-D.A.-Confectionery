@@ -1,4 +1,6 @@
 using ConfectioneryBusinessLogic.BusinessLogics;
+using ConfectioneryBusinessLogic.MailWorker;
+using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.BusinessLogicsContracts;
 using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryDatabaseImplement.Implements;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace ConfectioneryRestApi
 {
@@ -26,6 +29,8 @@ namespace ConfectioneryRestApi
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IPastryLogic, PastryLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
+            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -53,6 +58,22 @@ namespace ConfectioneryRestApi
             {
                 endpoints.MapControllers();
             });
+            var mailSender = app.ApplicationServices.GetService<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin =
+            Configuration?.GetSection("MailLogin")?.ToString(),
+                MailPassword =
+            Configuration?.GetSection("MailPassword")?.ToString(),
+                SmtpClientHost =
+            Configuration?.GetSection("SmtpClientHost")?.ToString(),
+                SmtpClientPort =
+            Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.ToString(),
+                PopPort =
+            Convert.ToInt32(Configuration?.GetSection("PopPort")?.ToString())
+            });
+
         }
     }
 

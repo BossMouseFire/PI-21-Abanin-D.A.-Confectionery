@@ -13,10 +13,12 @@ namespace ConfectioneryRestApi.Controllers
     {
         private readonly IOrderLogic _order;
         private readonly IPastryLogic _pastry;
-        public MainController(IOrderLogic order, IPastryLogic pastry)
+        private readonly IMessageInfoLogic _message;
+        public MainController(IOrderLogic order, IPastryLogic pastry, IMessageInfoLogic message)
         {
             _order = order;
             _pastry = pastry;
+            _message = message;
         }
         [HttpGet]
         public List<PastryViewModel> GetPastryList() => _pastry.Read(null)?.ToList();
@@ -26,6 +28,8 @@ namespace ConfectioneryRestApi.Controllers
         [HttpGet]
         public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel
         { ClientId = clientId });
+        [HttpGet]
+        public List<MessageInfoViewModel> GetMessages(int clientId) => _message.Read(new MessageInfoBindingModel { ClientId = clientId });
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) =>
        _order.CreateOrder(model);

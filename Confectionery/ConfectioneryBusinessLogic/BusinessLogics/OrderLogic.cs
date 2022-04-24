@@ -5,15 +5,20 @@ using ConfectioneryContracts.StoragesContracts;
 using ConfectioneryContracts.BindingModels;
 using ConfectioneryContracts.ViewModels;
 using ConfectioneryContracts.Enums;
+using ConfectioneryBusinessLogic.MailWorker;
 
 namespace ConfectioneryBusinessLogic.BusinessLogics
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientStorage _clientStorage;
+        public OrderLogic(IOrderStorage orderStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
+            _clientStorage = clientStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -42,6 +47,13 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 Status = OrderStatus.Принят,
                 DateCreate = DateTime.Now
             });
+
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = model.ClientId })?.Email,
+                Subject = "Создан новый заказ",
+                Text = $"Дата заказа: {DateTime.Now}, сумма заказа: {model.Sum}"
+            });
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -63,6 +75,12 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     ImplementerId = model.ImplementerId
                 });
             }
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Email,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выполняется}"
+            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -86,6 +104,12 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     ImplementerId = order.ImplementerId
                 });
             }
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Email,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Готов}"
+            });
         }
 
         public void DeliveryOrder(ChangeStatusBindingModel model)
@@ -109,6 +133,12 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     ImplementerId = order.ImplementerId
                 });
             }
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Email,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выдан}"
+            });
         }
     }
 }
