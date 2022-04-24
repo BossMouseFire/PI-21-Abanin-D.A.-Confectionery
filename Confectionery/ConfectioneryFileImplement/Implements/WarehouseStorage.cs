@@ -69,7 +69,8 @@ namespace ConfectioneryFileImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
-        public bool CheckBalance(Dictionary<int, int> components)
+
+        public void changeBalance(Dictionary<int, int> components)
         {
             Dictionary<int, int> reserveComponents = new Dictionary<int, int>();
             foreach (var warehouse in source.Warehouses)
@@ -91,18 +92,10 @@ namespace ConfectioneryFileImplement.Implements
                 if (!reserveComponents.ContainsKey(comp.Key) ||
                     reserveComponents[comp.Key] < comp.Value)
                 {
-                    return false;
+                    throw new Exception("Недостаточно компонентов");
                 }
             }
-            return true;
-        }
 
-        public bool WriteOffBalance(Dictionary<int, int> components)
-        {
-            if (!CheckBalance(components))
-            {
-                return false;
-            }
             Dictionary<int, int> remainComponents = components.ToDictionary(comp => comp.Key, comp => comp.Value);
             foreach (var warehouse in source.Warehouses)
             {
@@ -120,7 +113,6 @@ namespace ConfectioneryFileImplement.Implements
                     }
                 }
             }
-            return true;
         }
         private WarehouseViewModel CreateModel(Warehouse warehouse)
         {
