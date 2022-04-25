@@ -102,6 +102,20 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             })
            .ToList();
         }
+
+        public List<ReportOrdersByDateViewModel> GetOrdersByDate()
+        {
+            return _orderStorage.GetFullList()
+            .GroupBy(rec => rec.DateCreate.ToShortDateString())
+            .Select(x => new ReportOrdersByDateViewModel
+            {
+                DateCreate = Convert.ToDateTime(x.Key),
+                Count = x.Count(),
+                Sum = x.Sum(rec => rec.Sum)
+            })
+           .ToList();
+        }
+
         /// <summary>
         /// Сохранение компонент в файл-Word
         /// </summary>
@@ -159,6 +173,15 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 FileName = model.FileName,
                 Title = "Список складов",
                 Warehouses = _warehouseStorage.GetFullList()
+            });
+        }
+        public void SaveOrdersByDateToPdfFile(ReportBindingModel model)
+        {
+            _saveToPdf.CreateDocOrdersByDate(new PdfInfo
+            {
+                FileName = model.FileName,
+                Title = "Список заказов по датам",
+                OrdersByDate = GetOrdersByDate()
             });
         }
     }

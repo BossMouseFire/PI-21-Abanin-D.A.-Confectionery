@@ -45,9 +45,9 @@ namespace ConfectioneryView
             this.компонентыПоИзделиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listWarehouseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.WarehouseAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentsWareHouseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокСкладовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listOrdersByDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WarehouseAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -162,7 +162,7 @@ namespace ConfectioneryView
             this.списокЗаказовToolStripMenuItem,
             this.listWarehouseToolStripMenuItem,
             this.componentsWareHouseToolStripMenuItem,
-            this.списокСкладовToolStripMenuItem});
+            this.listOrdersByDateToolStripMenuItem});
             this.отчётыToolStripMenuItem.Name = "отчётыToolStripMenuItem";
             this.отчётыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.отчётыToolStripMenuItem.Text = "Отчёты";
@@ -195,13 +195,6 @@ namespace ConfectioneryView
             this.listWarehouseToolStripMenuItem.Text = "Список складов";
             this.listWarehouseToolStripMenuItem.Click += new System.EventHandler(this.listWarehouseToolStripMenuItem_Click);
             // 
-            // WarehouseAddToolStripMenuItem
-            // 
-            this.WarehouseAddToolStripMenuItem.Name = "WarehouseAddToolStripMenuItem";
-            this.WarehouseAddToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
-            this.WarehouseAddToolStripMenuItem.Text = "Пополнить склад";
-            this.WarehouseAddToolStripMenuItem.Click += new System.EventHandler(this.WarehouseAddToolStripMenuItem_Click);
-            // 
             // componentsWareHouseToolStripMenuItem
             // 
             this.componentsWareHouseToolStripMenuItem.Name = "componentsWareHouseToolStripMenuItem";
@@ -209,11 +202,19 @@ namespace ConfectioneryView
             this.componentsWareHouseToolStripMenuItem.Text = "Компоненты по складам";
             this.componentsWareHouseToolStripMenuItem.Click += new System.EventHandler(this.componentsWareHouseToolStripMenuItem_Click);
             // 
-            // списокСкладовToolStripMenuItem
+            // listOrdersByDateToolStripMenuItem
             // 
-            this.списокСкладовToolStripMenuItem.Name = "списокСкладовToolStripMenuItem";
-            this.списокСкладовToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.списокСкладовToolStripMenuItem.Text = "fdf";
+            this.listOrdersByDateToolStripMenuItem.Name = "listOrdersByDateToolStripMenuItem";
+            this.listOrdersByDateToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.listOrdersByDateToolStripMenuItem.Text = "Список заказов по датам";
+            this.listOrdersByDateToolStripMenuItem.Click += new System.EventHandler(this.listOrdersByDateToolStripMenuItem_Click);
+            // 
+            // WarehouseAddToolStripMenuItem
+            // 
+            this.WarehouseAddToolStripMenuItem.Name = "WarehouseAddToolStripMenuItem";
+            this.WarehouseAddToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.WarehouseAddToolStripMenuItem.Text = "Пополнить склад";
+            this.WarehouseAddToolStripMenuItem.Click += new System.EventHandler(this.WarehouseAddToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -258,6 +259,6 @@ namespace ConfectioneryView
         private System.Windows.Forms.ToolStripMenuItem warehousesStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listWarehouseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentsWareHouseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокСкладовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listOrdersByDateToolStripMenuItem;
     }
 }

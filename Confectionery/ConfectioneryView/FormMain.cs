@@ -181,6 +181,12 @@ namespace ConfectioneryView
             var form = Program.Container.Resolve<FormReportWarehouseComponents>();
             form.ShowDialog();
         }
+
+        private void listOrdersByDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReportOrdersByDate>();
+            form.ShowDialog();
+        }
     }
 
 }
