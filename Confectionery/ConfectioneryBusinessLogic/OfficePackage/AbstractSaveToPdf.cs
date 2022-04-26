@@ -53,7 +53,7 @@ namespace ConfectioneryBusinessLogic.OfficePackage
                 Text = $"Заказы по датам",
                 Style = "Normal"
             });
-            CreateTable(new List<string> { "3cm", "3cm", "3cm" });
+            CreateTable(new List<string> { "5cm", "5cm", "5cm" });
             CreateRow(new PdfRowParameters
             {
                 Texts = new List<string> { "Дата заказов", "Количество заказов", "Сумма" },
