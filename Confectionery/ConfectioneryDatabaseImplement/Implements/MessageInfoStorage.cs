@@ -58,7 +58,7 @@ namespace ConfectioneryDatabaseImplement.Implements
             context.MessageInfoes.Add(new MessageInfo
             {
                 MessageId = model.MessageId,
-                ClientId = model.ClientId,
+                ClientId = model.ClientId != null ? model.ClientId : context.Clients.FirstOrDefault(rec => rec.Login == model.FromMailAddress).Id,
                 SenderName = model.FromMailAddress,
                 DateDelivery = model.DateDelivery,
                 Subject = model.Subject,
