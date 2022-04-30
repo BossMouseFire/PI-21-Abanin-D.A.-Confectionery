@@ -93,7 +93,7 @@ namespace ConfectioneryBusinessLogic.OfficePackage.Implements
             wordDocument.MainDocumentPart.Document.Save();
             wordDocument.Close();
         }
-        protected override void CreateTableWarehouses(List<string> tableHeaderInfo)
+        protected override void CreateTable(List<string> tableHeaderInfo)
         {
             table = new Table();
             TableProperties tblProps = new TableProperties(
@@ -141,7 +141,7 @@ namespace ConfectioneryBusinessLogic.OfficePackage.Implements
             }
             table.Append(tableRowHeader);
         }
-        protected override void addRowTable(List<string> tableRowInfo)
+        protected override void AddRowTable(List<string> tableRowInfo)
         {
             TableRow tableRow = new TableRow();
             foreach (string cell in tableRowInfo)
