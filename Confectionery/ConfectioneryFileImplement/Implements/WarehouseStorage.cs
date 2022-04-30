@@ -73,7 +73,8 @@ namespace ConfectioneryFileImplement.Implements
         public void changeBalance(Dictionary<int, int> components)
         {
             Dictionary<int, int> reserveComponents = new Dictionary<int, int>();
-            foreach (var warehouse in source.Warehouses)
+
+            source.Warehouses.ForEach(warehouse =>
             {
                 foreach (var comp in warehouse.WarehouseComponents)
                 {
@@ -86,7 +87,8 @@ namespace ConfectioneryFileImplement.Implements
                         reserveComponents.Add(comp.Key, comp.Value);
                     }
                 }
-            }
+            });
+
             foreach (var comp in components)
             {
                 if (!reserveComponents.ContainsKey(comp.Key) ||
@@ -97,7 +99,7 @@ namespace ConfectioneryFileImplement.Implements
             }
 
             Dictionary<int, int> remainComponents = components.ToDictionary(comp => comp.Key, comp => comp.Value);
-            foreach (var warehouse in source.Warehouses)
+            source.Warehouses.ForEach(warehouse =>
             {
                 foreach (var comp in remainComponents.Keys.ToList())
                 {
@@ -112,7 +114,7 @@ namespace ConfectioneryFileImplement.Implements
                         }
                     }
                 }
-            }
+            });
         }
         private WarehouseViewModel CreateModel(Warehouse warehouse)
         {
