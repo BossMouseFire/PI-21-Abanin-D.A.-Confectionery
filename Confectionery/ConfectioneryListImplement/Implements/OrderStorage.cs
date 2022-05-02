@@ -35,9 +35,11 @@ namespace ConfectioneryListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var order in _source.Orders)
             {
-                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date)
-                    || (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date)
-                    || (model.ClientId.HasValue && order.ClientId == model.ClientId))
+                if (order.PastryId == model.PastryId || (model.DateFrom.HasValue && model.DateTo.HasValue &&
+                    order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    || (model.ClientId.HasValue && order.ClientId == model.ClientId.Value)
+                    || (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status)
+                    || (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && model.Status == order.Status))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -112,6 +114,7 @@ namespace ConfectioneryListImplement.Implements
             order.Sum = model.Sum;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ImplementerId = model.ImplementerId;
             return order;
         }
 
@@ -135,6 +138,15 @@ namespace ConfectioneryListImplement.Implements
                     break;
                 }
             }
+            string implementerFIO = null;
+            foreach (var implementer in _source.Implementers)
+            {
+                if (implementer.Id == order.ImplementerId)
+                {
+                    implementerFIO = implementer.ImplementerFIO;
+                    break;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -142,6 +154,8 @@ namespace ConfectioneryListImplement.Implements
                 ClientFIO = clientFIO,
                 PastryId = order.PastryId,
                 PastryName = pastryName,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFIO,
                 Count = order.Count,
                 Status = order.Status.ToString(),
                 Sum = order.Sum,

@@ -31,8 +31,6 @@ namespace ConfectioneryView
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
-            this.ButtonTakeOrderInWork = new System.Windows.Forms.Button();
-            this.ButtonOrderReady = new System.Windows.Forms.Button();
             this.ButtonIssuedOrder = new System.Windows.Forms.Button();
             this.ButtonRef = new System.Windows.Forms.Button();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -49,6 +47,8 @@ namespace ConfectioneryView
             this.componentsWareHouseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listOrdersByDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WarehouseAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.implementersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.worksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +64,7 @@ namespace ConfectioneryView
             // 
             // buttonCreateOrder
             // 
-            this.buttonCreateOrder.Location = new System.Drawing.Point(602, 79);
+            this.buttonCreateOrder.Location = new System.Drawing.Point(602, 142);
             this.buttonCreateOrder.Name = "buttonCreateOrder";
             this.buttonCreateOrder.Size = new System.Drawing.Size(151, 41);
             this.buttonCreateOrder.TabIndex = 2;
@@ -72,29 +72,9 @@ namespace ConfectioneryView
             this.buttonCreateOrder.UseVisualStyleBackColor = true;
             this.buttonCreateOrder.Click += new System.EventHandler(this.ButtonCreateOrder_Click);
             // 
-            // ButtonTakeOrderInWork
-            // 
-            this.ButtonTakeOrderInWork.Location = new System.Drawing.Point(602, 142);
-            this.ButtonTakeOrderInWork.Name = "ButtonTakeOrderInWork";
-            this.ButtonTakeOrderInWork.Size = new System.Drawing.Size(151, 41);
-            this.ButtonTakeOrderInWork.TabIndex = 3;
-            this.ButtonTakeOrderInWork.Text = "Отдать на выполнение";
-            this.ButtonTakeOrderInWork.UseVisualStyleBackColor = true;
-            this.ButtonTakeOrderInWork.Click += new System.EventHandler(this.ButtonTakeOrderInWork_Click);
-            // 
-            // ButtonOrderReady
-            // 
-            this.ButtonOrderReady.Location = new System.Drawing.Point(602, 204);
-            this.ButtonOrderReady.Name = "ButtonOrderReady";
-            this.ButtonOrderReady.Size = new System.Drawing.Size(151, 41);
-            this.ButtonOrderReady.TabIndex = 4;
-            this.ButtonOrderReady.Text = "Заказа готов";
-            this.ButtonOrderReady.UseVisualStyleBackColor = true;
-            this.ButtonOrderReady.Click += new System.EventHandler(this.ButtonOrderReady_Click);
-            // 
             // ButtonIssuedOrder
             // 
-            this.ButtonIssuedOrder.Location = new System.Drawing.Point(602, 267);
+            this.ButtonIssuedOrder.Location = new System.Drawing.Point(602, 212);
             this.ButtonIssuedOrder.Name = "ButtonIssuedOrder";
             this.ButtonIssuedOrder.Size = new System.Drawing.Size(151, 41);
             this.ButtonIssuedOrder.TabIndex = 5;
@@ -104,7 +84,7 @@ namespace ConfectioneryView
             // 
             // ButtonRef
             // 
-            this.ButtonRef.Location = new System.Drawing.Point(602, 332);
+            this.ButtonRef.Location = new System.Drawing.Point(602, 286);
             this.ButtonRef.Name = "ButtonRef";
             this.ButtonRef.Size = new System.Drawing.Size(151, 41);
             this.ButtonRef.TabIndex = 6;
@@ -117,7 +97,8 @@ namespace ConfectioneryView
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.отчётыToolStripMenuItem,
-            this.WarehouseAddToolStripMenuItem});
+            this.WarehouseAddToolStripMenuItem,
+            this.worksToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(800, 24);
@@ -130,7 +111,8 @@ namespace ConfectioneryView
             this.PastryToolStripMenuItem,
             this.ComponentToolStripMenuItem,
             this.warehousesStripMenuItem,
-            this.clientsToolStripMenuItem});
+            this.clientsToolStripMenuItem,
+            this.implementersToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(94, 20);
             this.toolStripMenuItem1.Text = "Справочники";
@@ -223,6 +205,19 @@ namespace ConfectioneryView
             this.WarehouseAddToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
             this.WarehouseAddToolStripMenuItem.Text = "Пополнить склад";
             this.WarehouseAddToolStripMenuItem.Click += new System.EventHandler(this.WarehouseAddToolStripMenuItem_Click);
+            // implementersToolStripMenuItem
+            // 
+            this.implementersToolStripMenuItem.Name = "implementersToolStripMenuItem";
+            this.implementersToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.implementersToolStripMenuItem.Text = "Исполнители";
+            this.implementersToolStripMenuItem.Click += new System.EventHandler(this.implementersToolStripMenuItem_Click);
+            // 
+            // worksToolStripMenuItem
+            // 
+            this.worksToolStripMenuItem.Name = "worksToolStripMenuItem";
+            this.worksToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
+            this.worksToolStripMenuItem.Text = "Запуск работ";
+            this.worksToolStripMenuItem.Click += new System.EventHandler(this.worksToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -231,8 +226,6 @@ namespace ConfectioneryView
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.ButtonRef);
             this.Controls.Add(this.ButtonIssuedOrder);
-            this.Controls.Add(this.ButtonOrderReady);
-            this.Controls.Add(this.ButtonTakeOrderInWork);
             this.Controls.Add(this.buttonCreateOrder);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.menuStrip);
@@ -251,8 +244,6 @@ namespace ConfectioneryView
         #endregion
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonCreateOrder;
-        private System.Windows.Forms.Button ButtonTakeOrderInWork;
-        private System.Windows.Forms.Button ButtonOrderReady;
         private System.Windows.Forms.Button ButtonIssuedOrder;
         private System.Windows.Forms.Button ButtonRef;
         private System.Windows.Forms.MenuStrip menuStrip;
@@ -269,5 +260,7 @@ namespace ConfectioneryView
         private System.Windows.Forms.ToolStripMenuItem componentsWareHouseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listOrdersByDateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clientsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem implementersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem worksToolStripMenuItem;
     }
 }

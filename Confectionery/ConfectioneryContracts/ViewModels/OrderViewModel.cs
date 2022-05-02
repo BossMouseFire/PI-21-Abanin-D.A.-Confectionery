@@ -18,6 +18,13 @@ namespace ConfectioneryContracts.ViewModels
         public string PastryName { get; set; }
 
         [DataMember]
+        public int? ImplementerId { get; set; }
+
+        [DataMember]
+        [DisplayName("ФИО исполнителя")]
+        public string ImplementerFIO { get; set; }
+
+        [DataMember]
         public int ClientId { get; set; }
 
         [DataMember]

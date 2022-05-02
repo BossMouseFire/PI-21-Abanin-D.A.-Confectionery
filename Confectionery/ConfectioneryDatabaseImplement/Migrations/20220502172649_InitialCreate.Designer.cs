@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfectioneryDatabaseImplement.Migrations
 {
     [DbContext(typeof(ConfectioneryDatabase))]
-    [Migration("20220502111844_InitialCreate")]
+    [Migration("20220502172649_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,28 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.ToTable("Components");
                 });
 
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImplementerFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -80,6 +102,9 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PastryId")
                         .HasColumnType("int");
 
@@ -92,6 +117,8 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.HasIndex("PastryId");
 
@@ -198,6 +225,10 @@ namespace ConfectioneryDatabaseImplement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ConfectioneryDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
+
                     b.HasOne("ConfectioneryDatabaseImplement.Models.Pastry", "Pastry")
                         .WithMany("Orders")
                         .HasForeignKey("PastryId")
@@ -205,6 +236,8 @@ namespace ConfectioneryDatabaseImplement.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("Implementer");
 
                     b.Navigation("Pastry");
                 });
@@ -257,6 +290,11 @@ namespace ConfectioneryDatabaseImplement.Migrations
                     b.Navigation("PastryComponents");
 
                     b.Navigation("WarehouseComponents");
+                });
+
+            modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("ConfectioneryDatabaseImplement.Models.Pastry", b =>

@@ -31,10 +31,11 @@ namespace ConfectioneryFileImplement.Implements
                 return null;
             }
 
-            return _source.Orders
-                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date)
-                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date)
-                || (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+            return _source.Orders.Where(rec => rec.PastryId == model.PastryId ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                || (model.ClientId.HasValue && rec.ClientId == model.ClientId.Value)
+                || (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status)
+                || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .Select(CreateModel)
                 .ToList();
         }
@@ -82,8 +83,9 @@ namespace ConfectioneryFileImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
-            order.ClientId = (int)model.ClientId;
+            order.ClientId = model.ClientId.Value;
             order.PastryId = model.PastryId;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Status = model.Status;
             order.Sum = model.Sum;
@@ -106,6 +108,8 @@ namespace ConfectioneryFileImplement.Implements
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = _source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.ImplementerFIO
             };
         }
     }

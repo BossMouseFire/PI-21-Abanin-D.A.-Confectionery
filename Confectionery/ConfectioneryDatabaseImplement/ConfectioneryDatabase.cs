@@ -9,7 +9,7 @@ namespace ConfectioneryDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=confectioneryDataBaseDB66;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=confectioneryDataBaseDB99;Trusted_Connection=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -20,5 +20,6 @@ namespace ConfectioneryDatabaseImplement
         public virtual DbSet<Warehouse> Warehouses { get; set; }
         public virtual DbSet<WarehouseComponent> WarehouseComponents { get; set; }
         public virtual DbSet<Client> Clients { set; get; }
+        public virtual DbSet<Implementer> Implementers { get; set; }
     }
 }

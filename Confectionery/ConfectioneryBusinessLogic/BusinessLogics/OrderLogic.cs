@@ -54,24 +54,32 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
             var order = _orderStorage.GetElement(new OrderBindingModel{
                 Id = model.OrderId
             });
-            if (order.Status == "Принят")
+            if (order.Status == "Принят" || order.Status == "ТребуютсяМатериалы")
             {
                 PastryViewModel pastry = _pastryStorage.GetElement(new PastryBindingModel { Id = order.PastryId });
                 Dictionary<int, int> components = pastry
                     .PastryComponents
                     .ToDictionary(pastry => pastry.Key, pastry => pastry.Value.Item2 * order.Count);
-
-                _warehouseStorage.changeBalance(components);
-
-                _orderStorage.Update(new OrderBindingModel{
+                var tempStatus = OrderStatus.Выполняется;
+                try
+                {
+                    _warehouseStorage.changeBalance(components);
+                }
+                catch (Exception ex)
+                {
+                    tempStatus = OrderStatus.ТребуютсяМатериалы;
+                }
+                _orderStorage.Update(new OrderBindingModel
+                {
                     Id = order.Id,
                     ClientId = order.ClientId,
                     PastryId = order.PastryId,
                     Count = order.Count,
                     Sum = order.Sum,
-                    Status = OrderStatus.Выполняется,
+                    Status = tempStatus,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = order.DateImplement,
+                    ImplementerId = model.ImplementerId
                 });
             }
         }
@@ -93,7 +101,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Готов,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = order.DateImplement,
+                    ImplementerId = order.ImplementerId
                 });
             }
         }
@@ -115,7 +124,8 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     Status = OrderStatus.Выдан,
                     DateCreate = order.DateCreate,
-                    DateImplement = DateTime.Now
+                    DateImplement = DateTime.Now,
+                    ImplementerId = order.ImplementerId
                 });
             }
         }
