@@ -36,7 +36,7 @@ namespace ConfectioneryRestApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title =
-                "AbstractShopRestApi",
+                "ConfectioneryRestApi",
                     Version = "v1"
                 });
             });
