@@ -40,6 +40,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
 
             _orderStorage.Insert(new OrderBindingModel { 
                 Id = elements.Count,
+                ClientId = model.ClientId,
                 PastryId = model.PastryId,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -64,6 +65,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
 
                 _orderStorage.Update(new OrderBindingModel{
                     Id = order.Id,
+                    ClientId = order.ClientId,
                     PastryId = order.PastryId,
                     Count = order.Count,
                     Sum = order.Sum,
@@ -85,6 +87,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _orderStorage.Update(new OrderBindingModel
                 {
                     Id = order.Id,
+                    ClientId = order.ClientId,
                     PastryId = order.PastryId,
                     Count = order.Count,
                     Sum = order.Sum,
@@ -106,6 +109,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 _orderStorage.Update(new OrderBindingModel
                 {
                     Id = order.Id,
+                    ClientId = order.ClientId,
                     PastryId = order.PastryId,
                     Count = order.Count,
                     Sum = order.Sum,

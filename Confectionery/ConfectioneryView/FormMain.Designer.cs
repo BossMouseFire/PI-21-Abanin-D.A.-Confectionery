@@ -40,6 +40,7 @@ namespace ConfectioneryView
             this.PastryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.warehousesStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокКомпонентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыПоИзделиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -128,7 +129,8 @@ namespace ConfectioneryView
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PastryToolStripMenuItem,
             this.ComponentToolStripMenuItem,
-            this.warehousesStripMenuItem});
+            this.warehousesStripMenuItem,
+            this.clientsToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(94, 20);
             this.toolStripMenuItem1.Text = "Справочники";
@@ -153,6 +155,12 @@ namespace ConfectioneryView
             this.warehousesStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.warehousesStripMenuItem.Text = "Склады";
             this.warehousesStripMenuItem.Click += new System.EventHandler(this.warehousesStripMenuItem_Click);
+            // clientsToolStripMenuItem
+            // 
+            this.clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
+            this.clientsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.clientsToolStripMenuItem.Text = "Клиенты";
+            this.clientsToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
             // 
             // отчётыToolStripMenuItem
             // 
@@ -260,5 +268,6 @@ namespace ConfectioneryView
         private System.Windows.Forms.ToolStripMenuItem listWarehouseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem componentsWareHouseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listOrdersByDateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clientsToolStripMenuItem;
     }
 }

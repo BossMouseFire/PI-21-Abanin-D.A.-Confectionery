@@ -16,18 +16,21 @@ namespace ConfectioneryDatabaseImplement.Implements
             using (var context = new ConfectioneryDatabase())
             {
                 return context.Orders
-                    .Select(order => new OrderViewModel
+                    .Include(rec => rec.Pastry)
+                    .Include(rec => rec.Client)
+                    .Select(rec => new OrderViewModel
                     {
-                        Id = order.Id,
-                        PastryId = order.PastryId,
-                        PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
-                        Count = order.Count,
-                        Sum = order.Sum,
-                        Status = order.Status.ToString(),
-                        DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement,
-                    }
-            )
+                        Id = rec.Id,
+                        PastryId = rec.PastryId,
+                        PastryName = rec.Pastry.PastryName,
+                        Count = rec.Count,
+                        Sum = rec.Sum,
+                        Status = rec.Status.ToString(),
+                        DateCreate = rec.DateCreate,
+                        DateImplement = rec.DateImplement,
+                        ClientId = rec.ClientId,
+                        ClientFIO = rec.Client.FIO
+                    })
                     .ToList();
             }
         }
@@ -43,20 +46,23 @@ namespace ConfectioneryDatabaseImplement.Implements
             {
                 return context.Orders
                     .Include(rec => rec.Pastry)
-                    .Where(rec => rec.PastryId == model.PastryId || 
-                    rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                    .Select(order => new OrderViewModel
+                    .Include(rec => rec.Client)
+                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date)
+                    || (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                    .Select(rec => new OrderViewModel
                     {
-                        Id = order.Id,
-                        PastryId = order.PastryId,
-                        PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
-                        Count = order.Count,
-                        Sum = order.Sum,
-                        Status = order.Status.ToString(),
-                        DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement,
-                    }
-            )
+                        Id = rec.Id,
+                        PastryId = rec.PastryId,
+                        PastryName = rec.Pastry.PastryName,
+                        Count = rec.Count,
+                        Sum = rec.Sum,
+                        Status = rec.Status.ToString(),
+                        DateCreate = rec.DateCreate,
+                        DateImplement = rec.DateImplement,
+                        ClientId = rec.ClientId,
+                        ClientFIO = rec.Client.FIO
+                    })
                     .ToList();
             }
         }
@@ -70,18 +76,23 @@ namespace ConfectioneryDatabaseImplement.Implements
 
             using (var context = new ConfectioneryDatabase())
             {
-                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                Order order = context.Orders
+                    .Include(rec => rec.Pastry)
+                    .Include(rec => rec.Client)
+                    .FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
                 {
                     Id = order.Id,
                     PastryId = order.PastryId,
-                    PastryName = context.Pastries.Include(pr => pr.Orders).FirstOrDefault(pr => pr.Id == order.PastryId).PastryName,
+                    PastryName = order.Pastry.PastryName,
                     Count = order.Count,
                     Sum = order.Sum,
                     Status = order.Status.ToString(),
                     DateCreate = order.DateCreate,
                     DateImplement = order.DateImplement,
+                    ClientId = order.ClientId,
+                    ClientFIO = order.Client.FIO
                 } :
                 null;
             }
@@ -99,7 +110,9 @@ namespace ConfectioneryDatabaseImplement.Implements
                     Status = model.Status,
                     DateCreate = model.DateCreate,
                     DateImplement = model.DateImplement,
+                    ClientId = model.ClientId.Value
                 };
+
                 context.Orders.Add(order);
                 context.SaveChanges();
                 CreateModel(model, order);
@@ -122,6 +135,7 @@ namespace ConfectioneryDatabaseImplement.Implements
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
+                order.ClientId = model.ClientId.Value;
 
                 CreateModel(model, order);
                 context.SaveChanges();
@@ -145,7 +159,7 @@ namespace ConfectioneryDatabaseImplement.Implements
             }
         }
 
-        private static Order CreateModel(OrderBindingModel model, Order order)
+        private Order CreateModel(OrderBindingModel model, Order order)
         {
             if (model == null)
             {

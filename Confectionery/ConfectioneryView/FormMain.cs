@@ -31,6 +31,7 @@ namespace ConfectioneryView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[3].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -157,11 +158,6 @@ namespace ConfectioneryView
             form.ShowDialog();
         }
 
-        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void listWarehouseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
@@ -185,6 +181,11 @@ namespace ConfectioneryView
         private void listOrdersByDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrdersByDate>();
+            form.ShowDialog();
+        }
+        private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }
