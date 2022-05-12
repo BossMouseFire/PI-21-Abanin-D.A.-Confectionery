@@ -43,17 +43,17 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 // вытаскиваем список классов для сохранения
                 var dbsets = _backUpInfo.GetFullList();
                 // берем метод для сохранения (из базвого абстрактного класса)
-                var method =
-                    GetType();
+                MethodInfo method =
+                    GetType().BaseType.GetTypeInfo().GetDeclaredMethod("SaveToFile");
                 foreach (var set in dbsets)
                 {
                     // создаем объект из класса для сохранения
                     var elem =
                     assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     // генерируем метод, исходя из класса
-                    // MethodInfo generic = method.MakeGenericMethod(elem.GetType());
+                    MethodInfo generic = method.MakeGenericMethod(elem.GetType());
                     // вызываем метод на выполнение
-                    //generic.Invoke(this, new object[] { model.FolderName });
+                    generic.Invoke(this, new object[] { model.FolderName });
                 }
                 // архивируем
                 ZipFile.CreateFromDirectory(model.FolderName, fileName);
