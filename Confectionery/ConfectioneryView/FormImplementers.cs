@@ -13,25 +13,18 @@ namespace ConfectioneryView
 {
     public partial class FormImplementers : Form
     {
-        private readonly IImplementerLogic logic;
+        private readonly IImplementerLogic _logic;
         public FormImplementers(IImplementerLogic logic)
         {
             InitializeComponent();
-            this.logic = logic;
+            _logic = logic;
         }
 
         private void LoadData()
         {
             try
             {
-                var list = logic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode =
-                        DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(_logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
@@ -72,7 +65,7 @@ namespace ConfectioneryView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.Delete(new ImplementerBindingModel { Id = id });
+                        _logic.Delete(new ImplementerBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {
