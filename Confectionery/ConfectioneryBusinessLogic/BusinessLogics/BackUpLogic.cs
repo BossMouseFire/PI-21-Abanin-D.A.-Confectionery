@@ -44,7 +44,7 @@ namespace ConfectioneryBusinessLogic.BusinessLogics
                 var dbsets = _backUpInfo.GetFullList();
                 // берем метод для сохранения (из базвого абстрактного класса)
                 MethodInfo method =
-                    GetType().BaseType.GetTypeInfo().GetDeclaredMethod("SaveToFile");
+                    GetType().GetTypeInfo().GetDeclaredMethod("SaveToFile");
                 foreach (var set in dbsets)
                 {
                     // создаем объект из класса для сохранения
