@@ -1,6 +1,7 @@
 ﻿using ConfectioneryContracts.Attributes;
 using System;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace ConfectioneryContracts.ViewModels
 {
@@ -15,6 +16,7 @@ namespace ConfectioneryContracts.ViewModels
         public int PastryId { get; set; }
 
         [Column(title: "Изделие", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [DisplayName("Изделие")]
         [DataMember]
         public string PastryName { get; set; }
 
@@ -22,6 +24,7 @@ namespace ConfectioneryContracts.ViewModels
         public int? ImplementerId { get; set; }
 
         [Column(title: "Исполнитель", width: 150)]
+        [DisplayName("ФИО исполнителя")]
         [DataMember]
         public string ImplementerFIO { get; set; }
 
@@ -29,26 +32,32 @@ namespace ConfectioneryContracts.ViewModels
         public int ClientId { get; set; }
 
         [Column(title: "Клиент", width: 150)]
+        [DisplayName("ФИО клиента")]
         [DataMember]
         public string ClientFIO { get; set; }
 
         [Column(title: "Количество", width: 100)]
+        [DisplayName("Количество")]
         [DataMember]
         public int Count { get; set; }
 
         [Column(title: "Сумма", width: 50)]
+        [DisplayName("Сумма")]
         [DataMember]
         public decimal Sum { get; set; }
 
         [Column(title: "Статус", width: 100)]
+        [DisplayName("Статус")]
         [DataMember]
         public string Status { get; set; }
 
         [Column(title: "Дата создания", width: 100)]
+        [DisplayName("Дата создания")]
         [DataMember]
         public DateTime DateCreate { get; set; }
 
         [Column(title: "Дата выполнения", width: 100)]
+        [DisplayName("Дата выполнения")]
         [DataMember]
         public DateTime? DateImplement { get; set; }
     }
